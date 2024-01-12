@@ -18,7 +18,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         }
     }
 
-    const { email, password, name } = validatedFields.data;
+    const { email, password, name, organization } = validatedFields.data;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -34,6 +34,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         data: {
             name,
             email,
+            organization,
             password: hashedPassword,
         },
     });

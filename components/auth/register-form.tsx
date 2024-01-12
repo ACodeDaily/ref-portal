@@ -13,6 +13,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import {
     Form, FormItem, FormLabel, FormControl, FormMessage, FormField
 } from '@/components/ui/form'
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+
+
 import { RegisterSchema } from "@/schemas"
 
 import { CardWrapper } from "@/components/auth/card-wrapper"
@@ -21,6 +31,8 @@ import { Button } from "@/components/ui/button"
 import { FormError } from "@/components/form-error"
 import { FormSuccess } from "@/components/form-success"
 import { register } from "@/actions/register"
+
+
 
 
 
@@ -37,6 +49,7 @@ export const RegisterForm = () => {
             email: "",
             password: "",
             name: "",
+            organization: "",
         }
     });
 
@@ -122,6 +135,36 @@ export const RegisterForm = () => {
                             )}
                         />
                     </div>
+
+                    <FormField
+                        control={form.control}
+                        name="organization"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Organization</FormLabel>
+                                <Select
+                                    disabled={isPending}
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select organization" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        <SelectItem value="morgan stanley">
+                                            Morgan Stanley
+                                        </SelectItem>
+                                        <SelectItem value="microsoft">
+                                            Microsoft
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <FormError message={error} />
                     <FormSuccess message={success} />

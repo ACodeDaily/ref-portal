@@ -183,8 +183,17 @@ const SettingsPage = () => {
                                                 <SelectItem value={UserRole.ADMIN}>
                                                     Admin
                                                 </SelectItem>
-                                                <SelectItem value={UserRole.USER}>
-                                                    User
+                                                <SelectItem value={UserRole.MOD}>
+                                                    Mod
+                                                </SelectItem>
+                                                <SelectItem value={UserRole.REFERRER}>
+                                                    Referrer
+                                                </SelectItem>
+                                                <SelectItem value={UserRole.ADMINREF}>
+                                                    Admin & Referrer
+                                                </SelectItem>
+                                                <SelectItem value={UserRole.MODREF}>
+                                                    Mod & Referrer
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>

@@ -41,6 +41,11 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         return { success: "Confirmation email sent!" }
     }
 
+    // for verification using admin or mod
+    if (!existingUser.isVerified) {
+        return { error: "Account is being verified by Admin" }
+    }
+
     if (existingUser.isTwoFactorEnabled && existingUser.email) {
 
         if (code) {

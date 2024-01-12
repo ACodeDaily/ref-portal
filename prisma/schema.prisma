@@ -1,7 +1,6 @@
 datasource db {
-  provider  = "postgresql"
+  provider  = "mongodb"
   url  	    = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 generator client{
@@ -10,43 +9,83 @@ generator client{
 
 enum UserRole{
   ADMIN
+  MOD
+  REFERRER
   USER
+  ADMINREF
+  MODREF
 }
 
+enum Status{
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+
+model Member {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  email         String   
+  codeForces    String    @unique
+  leetcode      String
+  forms         Form[]
+}
+
+model Form{
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  formId        String    @db.ObjectId
+  resume        String
+  message       String
+  organization  String
+  phoneNumber   String
+  cgpa          String
+  yoe           String
+  jobId         String
+  status        Status @default(PENDING)
+  referrerResponse String?
+  member Member @relation(fields: [formId], references: [id])
+}
+
+
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   password      String?
+  organization  String?
+  isVerified    Boolean @default(false)
+  verifiedBy    String? @db.ObjectId
+  totalReferred Int?    @default(0)
   role          UserRole @default(USER)
   accounts      Account[]
   isTwoFactorEnabled Boolean @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
 }
 
+
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String @db.ObjectId
   type               String
   provider           String
   providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
+  refresh_token      String?  @db.String
+  access_token       String?  @db.String
   expires_at         Int?
   token_type         String?
   scope              String?
-  id_token           String?  @db.Text
+  id_token           String?  @db.String
   session_state      String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 
 model VerificationToken{
-  id String @id @default(cuid())
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   email String
   token String @unique
   expires DateTime
@@ -55,7 +94,7 @@ model VerificationToken{
 }
 
 model PasswordResetToken{
-  id String @id @default(cuid())
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   email String
   token String @unique
   expires DateTime
@@ -65,7 +104,7 @@ model PasswordResetToken{
 
 
 model TwoFactorToken{
-  id String @id @default(cuid())
+  id String @id @default(auto()) @map("_id") @db.ObjectId
   email String
   token String @unique
   expires DateTime
@@ -74,9 +113,8 @@ model TwoFactorToken{
 }
 
 model TwoFactorConfirmation{
-  id String @id @default(cuid())
-
-  userId String
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 
   @@unique([userId])

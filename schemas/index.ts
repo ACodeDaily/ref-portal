@@ -1,10 +1,35 @@
-import { UserRole } from "@prisma/client";
+import { UserRole, Status } from "@prisma/client";
 import * as z from "zod";
+
+export const RequestSchema = z.object({
+    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.ADMINREF, UserRole.MODREF, UserRole.REFERRER]),
+})
+
+
+// correct
+
+
+export const formUpdateSchema = z.object({
+    referrerResponse: (z.string()),
+    status: (z.enum([Status.ACCEPTED, Status.PENDING, Status.REJECTED])),
+})
+
+
+export const ModeratorUpdateSchema = z.object({
+    isVerified: (z.boolean()),
+    role: (z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.ADMINREF, UserRole.MODREF, UserRole.REFERRER])),
+})
+
+
+
+
+
+
 
 export const SettingSchema = z.object({
     name: z.optional(z.string()),
     isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.ADMINREF, UserRole.MODREF, UserRole.REFERRER]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),
@@ -51,6 +76,9 @@ export const RegisterSchema = z.object({
     name: z.string().min(1, {
         message: "Name is required"
     }),
+    organization: z.string().min(1, {
+        message: "Organization is required"
+    }),
 
 });
 
@@ -78,15 +106,39 @@ export const DetailSchema = z.object({
     }),
 
     codeForces: z.string().min(1, {
-        message: "Code Forces username is required"
+        message: "CodeForces username is required"
     }),
 
     leetcode: z.string().min(1, {
         message: "LeetCode username is required"
     }),
 
-    resume: z.string().email({
+    resume: z.string().url({
         message: "Resume link is required"
+    }),
+
+    jobId: z.string().min(1, {
+        message: "Job ID is required"
+    }),
+
+    message: z.string().min(1, {
+        message: "message is required"
+    }),
+
+    organization: z.string().min(1, {
+        message: "Organization is required"
+    }),
+
+    phoneNumber: z.string().length(10, {
+        message: "Phone number is required"
+    }),
+
+    cgpa: z.string().length(1, {
+        message: "CGPA is required"
+    }),
+
+    yoe: z.string().length(1, {
+        message: "yoe is required"
     }),
 
 });
