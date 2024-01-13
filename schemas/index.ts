@@ -2,7 +2,7 @@ import { UserRole, Status } from "@prisma/client";
 import * as z from "zod";
 
 export const RequestSchema = z.object({
-    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.ADMINREF, UserRole.MODREF, UserRole.REFERRER]),
+    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.REFERRER]),
 })
 
 
@@ -17,7 +17,7 @@ export const formUpdateSchema = z.object({
 
 export const ModeratorUpdateSchema = z.object({
     isVerified: (z.boolean()),
-    role: (z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.ADMINREF, UserRole.MODREF, UserRole.REFERRER])),
+    role: (z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.REFERRER])),
 })
 
 
@@ -29,7 +29,7 @@ export const ModeratorUpdateSchema = z.object({
 export const SettingSchema = z.object({
     name: z.optional(z.string()),
     isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.ADMINREF, UserRole.MODREF, UserRole.REFERRER]),
+    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.REFERRER]),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),

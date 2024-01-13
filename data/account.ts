@@ -29,13 +29,6 @@ export const roleFinder = (key: string) => {
         case "REFERRER":
             return UserRole.REFERRER
             break;
-        case "ADMINREF":
-            return UserRole.ADMINREF
-            break;
-        case "MODREF":
-            return UserRole.MODREF
-            break;
-
         default:
             break;
     }
@@ -56,13 +49,6 @@ export const roleFinderString = (key: UserRole) => {
         case UserRole.REFERRER:
             return "REFERRER"
             break;
-        case UserRole.ADMINREF:
-            return "ADMINREF"
-            break;
-        case UserRole.MODREF:
-            return "MODREF"
-            break;
-
         default:
             break;
     }

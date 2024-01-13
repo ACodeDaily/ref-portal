@@ -1,27 +1,23 @@
-import { getALlMember } from "@/data/member";
-import { currentRole } from "@/lib/auth";
+import { getALlMember, getMemberWithFormByOrganization } from "@/data/member";
+import { currentRole, currentUser } from "@/lib/auth";
 import { UserRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 
-interface ApiResponse {
-    data?: ({
-        id: string;
-        name: string | null;
-        email: string | null;
-        codeForces: string | null;
-        leetcode: string | null;
-    })[] | null;
-    error?: string;
-}
 
 export async function GET() {
-    const role = await currentRole()
+    const role = await currentRole();
 
-    if (role !== UserRole.USER) {
+    const user = await currentUser();
+
+    if (role === UserRole.ADMIN || role === UserRole.MOD) {
         const data = await getALlMember();
-        const response: ApiResponse = { data };
-        return new NextResponse(JSON.stringify(response), { status: 200 })
+        return new NextResponse(JSON.stringify({ data }), { status: 200 })
+    }
+
+    else if (role === UserRole.REFERRER) {
+        const data = await getMemberWithFormByOrganization(user?.organization || "");
+        return new NextResponse(JSON.stringify({ data }), { status: 200 })
     }
     return new NextResponse(null, {
         status: 403

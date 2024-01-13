@@ -12,8 +12,6 @@ enum UserRole{
   MOD
   REFERRER
   USER
-  ADMINREF
-  MODREF
 }
 
 enum Status{

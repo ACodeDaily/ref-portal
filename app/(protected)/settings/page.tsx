@@ -189,12 +189,6 @@ const SettingsPage = () => {
                                                 <SelectItem value={UserRole.REFERRER}>
                                                     Referrer
                                                 </SelectItem>
-                                                <SelectItem value={UserRole.ADMINREF}>
-                                                    Admin & Referrer
-                                                </SelectItem>
-                                                <SelectItem value={UserRole.MODREF}>
-                                                    Mod & Referrer
-                                                </SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />

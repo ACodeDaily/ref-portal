@@ -65,7 +65,6 @@ const GetDetailsForm = () => {
         setError("");
         setSuccess("");
 
-        console.log(values)
 
         startTransition(() => {
             sendDetails(values).then((data) => {

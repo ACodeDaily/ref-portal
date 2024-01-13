@@ -23,11 +23,10 @@ interface ApiResponse {
 export async function GET() {
     const role = await currentRole()
     const query: UserQuery = {
-        role: [UserRole.MOD, UserRole.MODREF],
+        role: [UserRole.MOD],
     };
     if (role === UserRole.ADMIN) {
         const data = await getAllUsersWithRole(query);
-        console.log(data);
         const response: ApiResponse = { data };
         return new NextResponse(JSON.stringify(response), { status: 200 })
     }

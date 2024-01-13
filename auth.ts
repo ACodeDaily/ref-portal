@@ -78,7 +78,10 @@ export const { handlers: { GET, POST }, auth,
             if (session.user) {
                 session.user.name = token.name;
                 session.user.email = token.email;
+                session.user.organization = token.organization as string;
+
                 session.user.isOAuth = token.isOAuth as boolean;
+
             }
 
             return session;
@@ -98,6 +101,7 @@ export const { handlers: { GET, POST }, auth,
             token.name = existingUser.name;
             token.email = existingUser.email;
             token.role = existingUser.role;
+            token.organization = existingUser.organization;
             token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 
             return token;

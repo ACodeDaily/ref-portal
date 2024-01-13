@@ -33,7 +33,7 @@ interface formDataProps {
     yoe: String;
     jobId: String;
     status: Status;
-    referrerResponse?: string
+    referrerResponse?: string | null
 }
 
 
@@ -46,6 +46,7 @@ interface formRowDataProps {
 import * as React from "react"
 import { formUpdateSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
+import { formUpdate } from "@/actions/formUpdate";
 
 
 
@@ -69,19 +70,19 @@ export const FormRow = ({ formData, onUpdateFormData }: formRowDataProps) => {
     const onSubmit = (values: z.infer<typeof formUpdateSchema>) => {
         const combinedData = { ...values, id }
         startTransition(() => {
-            // moderatorUpdate(combinedData)
-            //     .then((data) => {
-            //         if (data.error) {
-            //             toast.error(data.error);
-            //         }
+            formUpdate(combinedData)
+                .then((data) => {
+                    if (data.error) {
+                        toast.error(data.error);
+                    }
 
-            //         if (data.success) {
-            //             toast.success(data.success);
-            //             onUpdateUserData(data.updatedUser)
+                    if (data.success) {
+                        toast.success(data.success);
+                        onUpdateFormData(data.updatedForm)
 
-            //         }
-            //     })
-            //     .catch(() => toast.error("Something went wrong!"));
+                    }
+                })
+                .catch(() => toast.error("Something went wrong!"));
         });
     }
 
@@ -134,7 +135,7 @@ export const FormRow = ({ formData, onUpdateFormData }: formRowDataProps) => {
                                 name="status"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Role</FormLabel>
+                                        <FormLabel>Status</FormLabel>
                                         <Select
                                             disabled={isPending}
                                             onValueChange={field.onChange}

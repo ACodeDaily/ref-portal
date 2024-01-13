@@ -15,7 +15,7 @@ const Navbar = () => {
     return (
         <nav className='bg-secondary flex justify-between items-center p-4 rounded-xl w-[90%] shadow-sm'>
             <div className='flex gap-x-2'>
-                {(role === UserRole.ADMIN || role === UserRole.MODREF || role === UserRole.ADMINREF || role === UserRole.REFERRER) &&
+                {(role === UserRole.ADMIN || role === UserRole.REFERRER) &&
                     <Button
                         asChild
                         variant={pathname === "/member" ? "default" : "outline"}
@@ -25,7 +25,7 @@ const Navbar = () => {
 
                 }
 
-                {(role === UserRole.ADMIN || role === UserRole.ADMINREF || role === UserRole.MOD || role === UserRole.MODREF) &&
+                {(role === UserRole.ADMIN || role === UserRole.MOD) &&
                     <Button
                         asChild
                         variant={pathname === "/referrer" ? "default" : "outline"}
@@ -36,7 +36,7 @@ const Navbar = () => {
 
 
                 {
-                    (role === UserRole.ADMIN || role === UserRole.ADMINREF) &&
+                    (role === UserRole.ADMIN) &&
                     <Button
                         asChild
                         variant={pathname === "/moderator" ? "default" : "outline"}
@@ -47,7 +47,7 @@ const Navbar = () => {
 
 
                 {
-                    (role === UserRole.ADMIN || role === UserRole.ADMINREF || role === UserRole.MOD || role === UserRole.MODREF) &&
+                    (role === UserRole.ADMIN || role === UserRole.MOD) &&
                     <Button
                         asChild
                         variant={pathname === "/request" ? "default" : "outline"}

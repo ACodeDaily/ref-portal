@@ -1,16 +1,8 @@
 "use server";
 
-import * as z from "zod";
-import bcrypt from "bcryptjs";
-
-import { update } from "@/auth";
 import { db } from "@/lib/db";
-import { ModeratorUpdateSchema } from "@/schemas";
-
-import { getUserByEmail, getUserById } from "@/data/user";
+import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import { generateVerificationTOken } from "@/lib/token";
-import { sendVerificationEmail } from "@/lib/mail";
 import { UserRole } from "@prisma/client";
 
 interface moderatorUpdateProps {
@@ -45,7 +37,5 @@ export const moderatorUpdate = async (
         }
     });
 
-
-
-    return { success: "Settings Updated!", updatedUser}
+    return { success: "Settings Updated!", updatedUser }
 }

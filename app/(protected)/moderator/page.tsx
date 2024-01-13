@@ -75,7 +75,7 @@ const ModeratorPage = () => {
                         </TableHeader>
                         <TableBody>
                             {users.map((user) => (
-                                (user.role === UserRole.MOD || user.role === UserRole.MODREF) &&
+                                (user.role === UserRole.MOD) &&
                                 <ModeratorRow userData={user} onUpdateUserData={updateUserData} />
                             ))}
                         </TableBody>

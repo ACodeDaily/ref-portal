@@ -30,7 +30,7 @@ interface form {
     yoe: String;
     jobId: String;
     status: Status;
-    referrerResponse?: string
+    referrerResponse?: string | null
 }
 
 const MemberPage = () => {
@@ -46,7 +46,6 @@ const MemberPage = () => {
             try {
                 const response = await fetch(`/api/members/${id}`); // Adjust the API endpoint based on your actual setup
                 const result = await response.json();
-                console.log(result.data);
                 setForms(result.data || []); // Use an empty array as a default value if result.data is undefined or null
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -60,7 +59,7 @@ const MemberPage = () => {
     const updateFormData = (updatedFormData: form) => {
         setForms((prevForm) =>
             prevForm.map((form) =>
-                form.id === updatedFormData.id ? { ...updatedFormData } : updatedFormData
+                form.id === updatedFormData.id ? { ...updatedFormData } : form
             )
         );
     }

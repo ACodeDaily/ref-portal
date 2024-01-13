@@ -12,9 +12,12 @@ export const getMemberbyCodeForcesId = async (codeForces: string) => {
     }
 };
 
+
 export const getALlMember = async () => {
     try {
-        const users = await db.member.findMany();
+        const users = await db.member.findMany({
+
+        });
         return users;
     } catch (error) {
         console.error('Error fetching users with role:', error);
@@ -22,16 +25,21 @@ export const getALlMember = async () => {
     }
 };
 
-export const getMemberById = async (id: string) => {
+
+export const getMemberWithFormByOrganization = async (organization: string) => {
     try {
-        if (!id) return null;
-        const member = await db.member.findUnique({
-            where: { id },
-            include: {
-                forms: true, // Include the activities related to the member
+        const members = await db.member.findMany({
+            where: {
+                forms: {
+                    some: {
+                        organization: organization,
+                    },
+                },
             },
+
         });
-        return member;
+
+        return members
     } catch {
         return null;
     }
