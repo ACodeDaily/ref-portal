@@ -12,6 +12,10 @@ interface formUpdateProps {
     id: string
 }
 
+// interface formDeleteProps {
+//     id: string
+// }
+
 
 export const formUpdate = async (
     data: formUpdateProps
@@ -35,10 +39,35 @@ export const formUpdate = async (
         data: {
             referrerResponse: referrerResponse,
             status: status,
+            verifiedBy: user.id,
+            verifiedAt: new Date()
         }
     });
 
 
 
     return { success: "Settings Updated!", updatedForm }
+}
+
+
+export const formDelete = async (
+    id: string
+) => {
+    const user = await currentUser();
+
+    if (!user) {
+        return { error: "Unauthorized" }
+    }
+
+    const dbForm = await getFormbyId(id);
+
+    if (!dbForm) {
+        return { error: "Form does not exist" }
+    }
+
+    const deletedForm = await db.form.delete({
+        where: { id: id },
+    });
+
+    return { success: "Deletion Success!", deletedForm }
 }

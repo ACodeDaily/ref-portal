@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Status } from "@prisma/client";
+import { Status, UserRole } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation"
 
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table"
 
 import { FormRow } from "../../_components/formRow";
+import { RoleGate } from "@/components/auth/role-gate";
 
 interface form {
     id: string;
@@ -30,6 +31,7 @@ interface form {
     yoe: String;
     jobId: String;
     status: Status;
+    verifiedBy?: string | null
     referrerResponse?: string | null
 }
 
@@ -64,6 +66,15 @@ const MemberPage = () => {
         );
     }
 
+    const deleteFormData = (deletedForm: form) => {
+        setForms((prevForms) => {
+            // Filter out the deleted form based on its id
+            const updatedForms = prevForms.filter((form) => form.id !== deletedForm.id);
+            return updatedForms;
+        });
+    };
+
+
     return (
         <Card className="w-[90%]">
             <CardHeader>
@@ -86,12 +97,15 @@ const MemberPage = () => {
                             <TableHead>Message</TableHead>
                             <TableHead><Button variant="link">Resume</Button></TableHead>
                             <TableHead>Status</TableHead>
+                            <RoleGate allowedRole={UserRole.ADMIN}>
+                                <TableHead>Verified By</TableHead>
+                            </RoleGate>
                             <TableHead className="text-right">Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {forms.map((forms) => (
-                            <FormRow formData={forms} onUpdateFormData={updateFormData} />
+                            <FormRow formData={forms} onUpdateFormData={updateFormData} onDeleteFormData={deleteFormData} />
                         ))}
                     </TableBody >
                 </Table>

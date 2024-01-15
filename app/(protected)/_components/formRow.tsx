@@ -3,24 +3,15 @@ import Link from "next/link"
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Status, UserRole } from "@prisma/client";
-
 import { toast } from "sonner";
-
 import { TableCell, TableRow, } from "@/components/ui/table"
 import { useTransition } from "react";
 import { DialogDemo } from "@/components/dialog-demo";
-
 import { Form, FormField, FormControl, FormItem, FormLabel, FormDescription, FormMessage, } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-
 
 import { FaGoogleDrive } from "react-icons/fa";
-
-
-
 
 interface formDataProps {
     id: string;
@@ -33,27 +24,26 @@ interface formDataProps {
     yoe: String;
     jobId: String;
     status: Status;
+    verifiedBy?: string | null
     referrerResponse?: string | null
 }
-
 
 interface formRowDataProps {
     formData: formDataProps;
     onUpdateFormData: (updateMemberData: formDataProps) => void;
+    onDeleteFormData: (deleteFormData: formDataProps) => void;
 }
 
 
 import * as React from "react"
 import { formUpdateSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
-import { formUpdate } from "@/actions/formUpdate";
+import { formDelete, formUpdate } from "@/actions/formUpdate";
+import { RoleGate } from "@/components/auth/role-gate";
+import { DialogFooter } from "@/components/ui/dialog";
 
 
-
-
-
-
-export const FormRow = ({ formData, onUpdateFormData }: formRowDataProps) => {
+export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
 
     const { id } = formData
 
@@ -86,6 +76,28 @@ export const FormRow = ({ formData, onUpdateFormData }: formRowDataProps) => {
         });
     }
 
+    const onSubmitDelete = () => {
+
+        startTransition(() => {
+            formDelete(id)
+                .then((data) => {
+                    if (data.error) {
+                        toast.error(data.error);
+                    }
+
+                    if (data.success) {
+                        toast.success(data.success);
+                        onDeleteFormData(data.deletedForm)
+
+                    }
+                })
+                .catch(() => toast.error("Something went wrong!"));
+        });
+    }
+
+
+
+
     return (
 
         <TableRow key={formData.id}>
@@ -97,77 +109,100 @@ export const FormRow = ({ formData, onUpdateFormData }: formRowDataProps) => {
             <TableCell>{formData.message} </TableCell>
             <TableCell><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
             <TableCell>{formData.status} </TableCell>
+
+            <RoleGate allowedRole={UserRole.ADMIN}>
+                <TableCell>{formData.verifiedBy ? formData.verifiedBy : "Unverified"}</TableCell>
+            </RoleGate>
+
             <TableCell className="text-right">
-                <DialogDemo
-                    dialogTrigger="Update"
-                    dialogTitle="Update details"
-                    dialogDescription="Give feedback and reponse from your side."
-                    ButtonLabel="Save Changes"
-                >
 
-                    <Form {...form}>
-                        <form
-                            className="space-y-6"
-                            onSubmit={form.handleSubmit(onSubmit)}
-                        >
+                <RoleGate allowedRole={UserRole.ADMIN}>
+                    <DialogDemo
+                        dialogTrigger="Delete"
+                        dialogTitle="Delete Form"
+                        dialogDescription="Do you want to delete this form?"
+                        ButtonLabel="yes"
+                    >
+                        <DialogFooter>
+                            <Button type="submit" onClick={onSubmitDelete}>Yes</Button>
+                        </DialogFooter>
+                    </DialogDemo>
 
-                            <FormField
-                                control={form.control}
-                                name="referrerResponse"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Response</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder="Response form referrer side"
+                </RoleGate>
+                <RoleGate allowedRole={UserRole.REFERRER}>
+                    <DialogDemo
+                        dialogTrigger="Update"
+                        dialogTitle="Update details"
+                        dialogDescription="Give feedback and reponse from your side."
+                        ButtonLabel="Save Changes"
+                    >
 
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <Form {...form}>
+                            <form
+                                className="space-y-6"
+                                onSubmit={form.handleSubmit(onSubmit)}
+                            >
 
-                            <FormField
-                                control={form.control}
-                                name="status"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Status</FormLabel>
-                                        <Select
-                                            disabled={isPending}
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
+                                <FormField
+                                    control={form.control}
+                                    name="referrerResponse"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Response</FormLabel>
                                             <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select a role" />
-                                                </SelectTrigger>
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder="Response form referrer side"
+
+                                                />
                                             </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value={Status.PENDING}>
-                                                    Pending
-                                                </SelectItem>
-                                                <SelectItem value={Status.ACCEPTED}>
-                                                    Accepted
-                                                </SelectItem>
-                                                <SelectItem value={Status.REJECTED}>
-                                                    Rejected
-                                                </SelectItem>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
 
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <Button type="submit">Save Changes</Button>
-                        </form>
-                    </Form>
+                                <FormField
+                                    control={form.control}
+                                    name="status"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Status</FormLabel>
+                                            <Select
+                                                disabled={isPending}
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select a role" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={Status.PENDING}>
+                                                        Pending
+                                                    </SelectItem>
+                                                    <SelectItem value={Status.ACCEPTED}>
+                                                        Accepted
+                                                    </SelectItem>
+                                                    <SelectItem value={Status.REJECTED}>
+                                                        Rejected
+                                                    </SelectItem>
 
-                </DialogDemo>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button type="submit">Save Changes</Button>
+                            </form>
+                        </Form>
+
+                    </DialogDemo>
+                </RoleGate>
+
+
             </TableCell>
         </TableRow>
     )

@@ -61,7 +61,6 @@ const GetDetailsForm = () => {
             cgpa: "",
             yoe: "",
             jobId: "",
-
         }
     });
 
