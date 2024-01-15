@@ -4,6 +4,7 @@ import { getVerificationTOkenBYEmail } from "@/data/verifiction-token";
 import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
 import { db } from "@/lib/db";
 import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getSecretTokenByCfUserName } from "@/data/secret_token";
 
 export const generateVerificationTOken = async (email: string) => {
     const token = uuidv4();
@@ -79,3 +80,30 @@ export const generateTwoFactorToken = async (email: string) => {
     return twoFactorToken
 }
 
+
+// secret key generation for user form submission
+
+export const generateSecretToken = async (cfUserName: string, discordId: string) => {
+    const token = uuidv4();
+    const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+    const existingToken = await getSecretTokenByCfUserName(cfUserName);
+    if (existingToken) {
+        await db.secretToken.delete({
+            where: {
+                id: existingToken.id,
+            }
+        })
+    }
+
+    const secretToken = await db.secretToken.create({
+        data: {
+            cfUserName,
+            discordId,
+            token,
+            expires,
+        }
+    })
+
+    return secretToken
+}

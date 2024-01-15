@@ -33,10 +33,14 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { sendDetails } from "@/actions/send-details"
+import { useSearchParams } from "next/navigation"
 
 
 
 const GetDetailsForm = () => {
+
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token");
 
     const [error, setError] = useState<string | undefined>("")
     const [success, setSuccess] = useState<string | undefined>("")
@@ -67,7 +71,7 @@ const GetDetailsForm = () => {
 
 
         startTransition(() => {
-            sendDetails(values).then((data) => {
+            sendDetails(values, token).then((data) => {
                 if (data?.error) {
                     setError(data.error)
                 }

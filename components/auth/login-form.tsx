@@ -122,7 +122,7 @@ export const LoginForm = () => {
                                             <Input
                                                 {...field}
                                                 disabled={isPending}
-                                                placeholder="john.doe@email.com"
+                                                placeholder="john.wick@action.com"
                                                 type="email"
                                             />
                                         </FormControl>

@@ -68,7 +68,7 @@ const MemberPage = () => {
         <Card className="w-[90%]">
             <CardHeader>
                 <p className="text-2xl font-semibold text-center">
-                    🔑 Admin
+                    📄 Forms
                 </p>
             </CardHeader>
             <CardContent className="space-y-4">

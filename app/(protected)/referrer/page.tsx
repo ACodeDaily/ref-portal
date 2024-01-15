@@ -56,7 +56,7 @@ const ModeratorPage = () => {
         <Card className="w-[90%]">
             <CardHeader>
                 <p className="text-2xl font-semibold text-center">
-                    🔑 Admin
+                    🧑🏽‍💻 Referrers
                 </p>
             </CardHeader>
             <CardContent className="space-y-4">

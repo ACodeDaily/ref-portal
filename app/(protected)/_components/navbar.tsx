@@ -7,6 +7,8 @@ import { UserRole } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import Logo from '@/components/logo'
+import Image from "next/image";
 
 
 const Navbar = () => {
@@ -15,6 +17,17 @@ const Navbar = () => {
     return (
         <nav className='bg-secondary flex justify-between items-center p-4 rounded-xl w-[90%] shadow-sm'>
             <div className='flex gap-x-2'>
+
+                <div className='mt-[-1px]'>
+                    <Image
+                        // onClick={() => router.push('/')}
+                        src="/images/TextLogo.png"
+                        height="80"
+                        width="80"
+                        alt="Logo"
+                    />
+                </div>
+
                 {(role === UserRole.ADMIN || role === UserRole.REFERRER) &&
                     <Button
                         asChild

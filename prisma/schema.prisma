@@ -41,8 +41,10 @@ model Form{
   yoe           String
   jobId         String
   status        Status @default(PENDING)
+  formCreatedAt  DateTime   @default(now())
   referrerResponse String?
   member Member @relation(fields: [formId], references: [id])
+  
 }
 
 
@@ -116,4 +118,19 @@ model TwoFactorConfirmation{
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 
   @@unique([userId])
+}
+
+
+
+// secret Token
+
+model SecretToken{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  cfUserName String
+  token String @unique
+  discordId String
+  tokenIssuedAt  DateTime   @default(now())
+  expires DateTime
+
+  @@unique([cfUserName,token])
 }
