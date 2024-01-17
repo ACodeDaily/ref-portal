@@ -51,9 +51,17 @@ const ModeratorPage = () => {
         );
     }
 
+    const deleteUserData = (deletedUser: user) => {
+        setUsers((prevUsers) => {
+            // Filter out the deleted user based on its id
+            const updatedUsers = prevUsers.filter((user) => user.id !== deletedUser.id);
+            return updatedUsers;
+        });
+    };
+
 
     return (
-        
+
         <RoleGate allowedRole={[UserRole.ADMIN]}>
             <Card className="w-[90%]">
                 <CardHeader>
@@ -72,12 +80,13 @@ const ModeratorPage = () => {
                                 <TableHead>Verified</TableHead>
                                 <TableHead>Role</TableHead>
                                 <TableHead className="text-right">Action</TableHead>
+                                <TableHead className="text-right">Action</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {users.map((user) => (
                                 (user.role === UserRole.MOD) &&
-                                <ModeratorRow userData={user} onUpdateUserData={updateUserData} />
+                                <ModeratorRow userData={user} onUpdateUserData={updateUserData} onDeleteUserData={deleteUserData} />
                             ))}
                         </TableBody>
 

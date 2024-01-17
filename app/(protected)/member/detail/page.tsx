@@ -102,10 +102,7 @@ const MemberPage = () => {
                                 <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                                     <TableHead>Verified By</TableHead>
                                 </RoleGateForComponent>
-                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.REFERRER]}>
                                     <TableHead className="text-right">Action</TableHead>
-                                </RoleGateForComponent>
-
                             </TableRow>
                         </TableHeader>
                         <TableBody>

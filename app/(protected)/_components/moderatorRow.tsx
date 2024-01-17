@@ -18,6 +18,9 @@ import { ModeratorUpdateSchema } from "@/schemas";
 import { moderatorUpdate } from "@/actions/moderator";
 import { ImCross } from "react-icons/im";
 import { IoMdCheckmark } from "react-icons/io";
+import { RoleGateForComponent } from "@/components/auth/role-gate-component";
+import { userDelete } from "@/actions/user";
+import { DialogFooter } from "@/components/ui/dialog";
 
 
 interface userProps {
@@ -36,10 +39,11 @@ interface userProps {
 interface moderatorRowProps {
     userData: userProps;
     onUpdateUserData: (updateUserData: userProps) => void;
+    onDeleteUserData: (deleteUserData: userProps) => void;
 }
 
 
-export const ModeratorRow = ({ userData, onUpdateUserData }: moderatorRowProps) => {
+export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: moderatorRowProps) => {
 
     const { id } = userData
 
@@ -71,6 +75,23 @@ export const ModeratorRow = ({ userData, onUpdateUserData }: moderatorRowProps) 
         });
     }
 
+    const onSubmitDelete = () => {
+        startTransition(() => {
+            userDelete(id)
+                .then((data) => {
+                    if (data.error) {
+                        toast.error(data.error);
+                    }
+
+                    if (data.success) {
+                        toast.success(data.success);
+                        onDeleteUserData(data.deletedUser)
+
+                    }
+                })
+                .catch(() => toast.error("Something went wrong!"));
+        });
+    }
 
     return (
 
@@ -80,6 +101,21 @@ export const ModeratorRow = ({ userData, onUpdateUserData }: moderatorRowProps) 
             <TableCell>{userData.organization ? userData.organization[0].toUpperCase() + userData.organization.slice(1) : "Default"}</TableCell>
             <TableCell>{userData.isVerified ? <IoMdCheckmark /> : <ImCross />}</TableCell>
             <TableCell>{userData.role}</TableCell>
+            <TableCell className="text-right">
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                    <DialogDemo
+                        dialogTrigger="Delete"
+                        dialogTitle="Delete User"
+                        dialogDescription="Do you want to delete this User?"
+                        ButtonLabel="yes"
+                    >
+                        <DialogFooter>
+                            <Button type="submit" variant="destructive" onClick={onSubmitDelete}>Yes</Button>
+                        </DialogFooter>
+                    </DialogDemo>
+
+                </RoleGateForComponent>
+            </TableCell>
             <TableCell className="text-right">
                 <DialogDemo
                     dialogTrigger="Edit User"
@@ -130,15 +166,24 @@ export const ModeratorRow = ({ userData, onUpdateUserData }: moderatorRowProps) 
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                <SelectItem value={UserRole.ADMIN}>
-                                                    Admin
-                                                </SelectItem>
-                                                <SelectItem value={UserRole.MOD}>
-                                                    Mod
-                                                </SelectItem>
-                                                <SelectItem value={UserRole.REFERRER}>
-                                                    Referrer
-                                                </SelectItem>
+                                                <RoleGateForComponent allowedRole={[UserRole.ADMIN]}>
+                                                    <SelectItem value={UserRole.ADMIN}>
+                                                        Admin
+                                                    </SelectItem>
+                                                </RoleGateForComponent>
+
+                                                <RoleGateForComponent allowedRole={[UserRole.ADMIN]}>
+                                                    <SelectItem value={UserRole.MOD}>
+                                                        Mod
+                                                    </SelectItem>
+                                                </RoleGateForComponent>
+
+                                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                                    <SelectItem value={UserRole.REFERRER}>
+                                                        Referrer
+                                                    </SelectItem>
+                                                </RoleGateForComponent>
+
                                             </SelectContent>
                                         </Select>
                                         <FormMessage />

@@ -39,7 +39,7 @@ export const MemberRow = ({ memberData, onUpdateMemberData }: memberRowDataProps
             <TableCell><Button variant={"link"}><Link href={`https://leetcode.com/${memberData.leetcode}`} target="__blank">{memberData.leetcode}</Link></Button> </TableCell>
             <TableCell className="text-right">
 
-                <Button variant="outline"> <Link href={`/member/detail?id=${memberData.id}`}>Get Detail</Link>s</Button>
+                <Button variant="outline"> <Link href={`/member/detail?id=${memberData.id}`}>Get Detail</Link></Button>
             </TableCell>
         </TableRow>
     )

@@ -21,7 +21,7 @@ export default function Home() {
                     <Logo />
                     <h1 className={cn('text-6xl font-semibold text-white drop-shadow-md', font.className,)}>ACD Referrer Portal</h1>
                 </div>
-                <p className='text-white text-lg'>A simple referral portal</p>
+                <p className='text-white text-lg'>Unlock your destiny with ACD Referral Keys.</p>
                 <div>
                     <LoginButton>
 

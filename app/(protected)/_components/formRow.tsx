@@ -42,6 +42,7 @@ import { formDelete, formUpdate } from "@/actions/formUpdate";
 import { RoleGate } from "@/components/auth/role-gate";
 import { DialogFooter } from "@/components/ui/dialog";
 import { RoleGateForComponent } from "@/components/auth/role-gate-component";
+import { VerifierDetail } from "./verifierDetail";
 
 
 export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
@@ -112,12 +113,18 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
             <TableCell>{formData.status} </TableCell>
 
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                <TableCell>{formData.verifiedBy ? formData.verifiedBy : "Unverified"}</TableCell>
+
+
+
+                <TableCell>{formData.verifiedBy ? <VerifierDetail id={formData.verifiedBy} /> : <Button variant="ghost">
+                    Unverified
+                </Button>}</TableCell>
+
             </RoleGateForComponent>
 
             <TableCell className="text-right">
-                
-                <RoleGateForComponent allowedRole={[UserRole.ADMIN]}>
+
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                     <DialogDemo
                         dialogTrigger="Delete"
                         dialogTitle="Delete Form"
@@ -125,7 +132,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                         ButtonLabel="yes"
                     >
                         <DialogFooter>
-                            <Button type="submit" onClick={onSubmitDelete}>Yes</Button>
+                            <Button type="submit" variant="destructive" onClick={onSubmitDelete}>Yes</Button>
                         </DialogFooter>
                     </DialogDemo>
 
@@ -206,7 +213,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
 
 
             </TableCell>
-        </TableRow>
+        </TableRow >
     )
 }
 

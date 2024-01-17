@@ -24,6 +24,25 @@ export const getUserById = async (id: string) => {
         return null;
     }
 }
+export const getUserByIdReqInfo = async (id: string) => {
+    try {
+        const user = await db.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                organization: true,
+                isVerified: true,
+                totalReferred: true,
+            },
+        })
+
+        return user;
+    } catch {
+        return null;
+    }
+}
 
 
 export interface UserQuery {
