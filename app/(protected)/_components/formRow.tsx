@@ -41,6 +41,7 @@ import { Input } from "@/components/ui/input";
 import { formDelete, formUpdate } from "@/actions/formUpdate";
 import { RoleGate } from "@/components/auth/role-gate";
 import { DialogFooter } from "@/components/ui/dialog";
+import { RoleGateForComponent } from "@/components/auth/role-gate-component";
 
 
 export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
@@ -110,13 +111,13 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
             <TableCell><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
             <TableCell>{formData.status} </TableCell>
 
-            <RoleGate allowedRole={UserRole.ADMIN}>
+            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                 <TableCell>{formData.verifiedBy ? formData.verifiedBy : "Unverified"}</TableCell>
-            </RoleGate>
+            </RoleGateForComponent>
 
             <TableCell className="text-right">
-
-                <RoleGate allowedRole={UserRole.ADMIN}>
+                
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN]}>
                     <DialogDemo
                         dialogTrigger="Delete"
                         dialogTitle="Delete Form"
@@ -128,8 +129,9 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                         </DialogFooter>
                     </DialogDemo>
 
-                </RoleGate>
-                <RoleGate allowedRole={UserRole.REFERRER}>
+                </RoleGateForComponent>
+
+                <RoleGateForComponent allowedRole={[UserRole.REFERRER]}>
                     <DialogDemo
                         dialogTrigger="Update"
                         dialogTitle="Update details"
@@ -200,7 +202,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                         </Form>
 
                     </DialogDemo>
-                </RoleGate>
+                </RoleGateForComponent>
 
 
             </TableCell>

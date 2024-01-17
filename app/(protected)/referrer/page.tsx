@@ -53,14 +53,15 @@ const ModeratorPage = () => {
 
 
     return (
-        <Card className="w-[90%]">
-            <CardHeader>
-                <p className="text-2xl font-semibold text-center">
-                    🧑🏽‍💻 Referrers
-                </p>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <RoleGate allowedRole={UserRole.ADMIN}>
+        <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+            <Card className="w-[90%]">
+                <CardHeader>
+                    <p className="text-2xl font-semibold text-center">
+                        🧑🏽‍💻 Referrers
+                    </p>
+                </CardHeader>
+                <CardContent className="space-y-4">
+
                     <Table>
                         <TableCaption>End of list</TableCaption>
                         <TableHeader>
@@ -81,9 +82,9 @@ const ModeratorPage = () => {
                         </TableBody>
 
                     </Table>
-                </RoleGate>
-            </CardContent>
-        </Card>
+                </CardContent>
+            </Card >
+        </RoleGate >
     );
 };
 

@@ -4,6 +4,7 @@ import { generateSecretToken } from "@/lib/token";
 
 
 export async function GET(req: NextRequest) {
+    
     const cfUserName = req.nextUrl.searchParams.get('cfUserName') as string;
     const discordId = req.nextUrl.searchParams.get('discordId') as string;
     if (!cfUserName || !discordId) {

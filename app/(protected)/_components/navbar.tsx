@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import Logo from '@/components/logo'
 import Image from "next/image";
+import { RoleGateForComponent } from '@/components/auth/role-gate-component'
 
 
 const Navbar = () => {
@@ -28,46 +29,40 @@ const Navbar = () => {
                     />
                 </div>
 
-                {(role === UserRole.ADMIN || role === UserRole.REFERRER) &&
-                    <Button
-                        asChild
-                        variant={pathname === "/member" ? "default" : "outline"}
-                    >
-                        <Link href="/member">Members</Link>
-                    </Button>
+                <Button
+                    asChild
+                    variant={pathname === "/member" ? "default" : "outline"}
+                >
+                    <Link href="/member">Members</Link>
+                </Button>
 
-                }
 
-                {(role === UserRole.ADMIN || role === UserRole.MOD) &&
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                     <Button
                         asChild
                         variant={pathname === "/referrer" ? "default" : "outline"}
                     >
                         <Link href="/referrer">Referrer</Link>
                     </Button>
-                }
+                </RoleGateForComponent>
 
-
-                {
-                    (role === UserRole.ADMIN) &&
-                    <Button
-                        asChild
-                        variant={pathname === "/moderator" ? "default" : "outline"}
-                    >
-                        <Link href="/moderator">Moderator</Link>
-                    </Button>
-                }
-
-
-                {
-                    (role === UserRole.ADMIN || role === UserRole.MOD) &&
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                     <Button
                         asChild
                         variant={pathname === "/request" ? "default" : "outline"}
                     >
                         <Link href="/request">Requests</Link>
                     </Button>
-                }
+                </RoleGateForComponent>
+
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN]}>
+                    <Button
+                        asChild
+                        variant={pathname === "/moderator" ? "default" : "outline"}
+                    >
+                        <Link href="/moderator">Moderator</Link>
+                    </Button>
+                </RoleGateForComponent>
 
                 <Button
                     asChild
@@ -75,9 +70,10 @@ const Navbar = () => {
                 >
                     <Link href="/settings">Settings</Link>
                 </Button>
+
             </div>
             <UserButton />
-        </nav>
+        </nav >
     )
 }
 

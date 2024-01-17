@@ -8,10 +8,6 @@ import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation
 import { getAccountByUserId } from "./data/account"
 
 
-
-
-
-
 export const { handlers: { GET, POST }, auth,
     signIn, signOut, update
 } = NextAuth({

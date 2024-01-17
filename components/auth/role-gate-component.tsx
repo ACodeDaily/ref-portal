@@ -13,7 +13,7 @@ interface RoleGateProps {
     allowedRole: UserRole[];
 };
 
-export const RoleGate = ({
+export const RoleGateForComponent = ({
     children,
     allowedRole,
 }: RoleGateProps) => {
@@ -25,7 +25,7 @@ export const RoleGate = ({
 
     if (!allowedRole.includes(role)) {
         return (
-            <FormError message="You do not have permission to view this content!" />
+            <></>
         )
     }
 

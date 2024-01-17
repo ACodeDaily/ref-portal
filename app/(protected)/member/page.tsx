@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Status } from "@prisma/client";
+import { Status, UserRole } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MemberRow } from "../_components/memberRow";
 
@@ -16,6 +16,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { useCurrentRole } from "@/hooks/use-currrent-role";
+import { RoleGate } from "@/components/auth/role-gate";
 
 interface member {
     id: string;
@@ -54,39 +55,42 @@ const MemberPage = () => {
     }
 
     return (
-        
-        <Card className="w-[90%]">
-            <CardHeader>
-                <p className="text-2xl font-semibold text-center">
-                    🧑‍🎓 Members
-                </p>
-            </CardHeader>
-            <CardContent className="space-y-4">
+
+        <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
+            <Card className="w-[90%]">
+                <CardHeader>
+                    <p className="text-2xl font-semibold text-center">
+                        🧑‍🎓 Members
+                    </p>
+                </CardHeader>
+                <CardContent className="space-y-4">
 
 
-                <Table>
-                    <TableCaption>End of list</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Email</TableHead>
-                            <TableHead><Button variant="link">CodeForces</Button></TableHead>
-                            <TableHead><Button variant="link">Leetcode</Button></TableHead>
-                            <TableHead className="text-right">Show Details</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {members.map((member) => (
-                            <MemberRow memberData={member} onUpdateMemberData={updateMemberData} />
-                        ))}
-                    </TableBody >
-                </Table>
+                    <Table>
+                        <TableCaption>End of list</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Email</TableHead>
+                                <TableHead><Button variant="link">CodeForces</Button></TableHead>
+                                <TableHead><Button variant="link">Leetcode</Button></TableHead>
+                                <TableHead className="text-right">Show Details</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {members.map((member) => (
+                                <MemberRow memberData={member} onUpdateMemberData={updateMemberData} />
+                            ))}
+                        </TableBody >
+                    </Table>
 
 
 
 
-            </CardContent>
-        </Card >
+                </CardContent>
+            </Card >
+
+        </RoleGate>
     );
 };
 

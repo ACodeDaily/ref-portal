@@ -20,7 +20,7 @@ export const getFormsByMemberIdWithOrganization = async (formId: string) => {
     try {
         if (!formId) return null;
 
-        if (user?.role === UserRole.ADMIN) {
+        if (user?.role === UserRole.ADMIN || user?.role === UserRole.MOD) {
 
             const forms = await db.form.findMany({
                 where: { formId },
