@@ -132,7 +132,7 @@ export const VerifierDetail = ({ id }: referrerDataProps) => {
                             <p className="text-sm text-muted-foreground">
                                 {details?.email}
                             </p>
-                            <p className="text-sm font-medium leading-none">
+                            {/* <p className="text-sm font-medium leading-none">
                                 Organization
                             </p>
                             <p className="text-sm text-muted-foreground">
@@ -149,7 +149,7 @@ export const VerifierDetail = ({ id }: referrerDataProps) => {
                             </p>
                             <p className="text-sm text-muted-foreground">
                                 {details?.totalReferred}
-                            </p>
+                            </p> */}
                         </div>
                     </div>
 

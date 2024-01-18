@@ -47,7 +47,7 @@ model Form{
   verifiedBy        String?     @db.ObjectId    
   verifiedAt        DateTime?                    
 
-  member Member @relation(fields: [formId], references: [id])
+  member Member @relation(fields: [formId], references: [id], onDelete: Cascade)
   verifiedByUser    User?       @relation("VerifiedForms", fields: [verifiedBy], references: [id])
 }
 

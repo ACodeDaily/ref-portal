@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 
 import { ModeratorRow } from "../_components/moderatorRow";
+import { RoleGateForComponent } from "@/components/auth/role-gate-component";
 
 interface user {
     id: string;
@@ -19,6 +20,7 @@ interface user {
     password: string | null;
     organization: string | null;
     isVerified: boolean;
+    verifiedBy: string | null
     role: UserRole;
     isTwoFactorEnabled: boolean;
 }
@@ -74,14 +76,16 @@ const ModeratorPage = () => {
                         <TableCaption>End of list</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
-                                <TableHead>Organization</TableHead>
-                                <TableHead>Verified</TableHead>
-                                <TableHead>Role</TableHead>
-                                <TableHead className="text-right">Action</TableHead>
-                                <TableHead className="text-right">Action</TableHead>
-
+                                <TableHead className="text-center">Name</TableHead>
+                                <TableHead className="text-center">Email</TableHead>
+                                <TableHead className="text-center">Organization</TableHead>
+                                <TableHead className="text-center">Verified</TableHead>
+                                <TableHead className="text-center">Role</TableHead>
+                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                    <TableHead className="text-center">Verified By</TableHead>
+                                </RoleGateForComponent>
+                                <TableHead className="text-center">Action</TableHead>
+                                <TableHead className="text-center">Action</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

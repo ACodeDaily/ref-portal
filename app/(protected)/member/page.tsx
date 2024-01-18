@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table"
 import { useCurrentRole } from "@/hooks/use-currrent-role";
 import { RoleGate } from "@/components/auth/role-gate";
+import { RoleGateForComponent } from "@/components/auth/role-gate-component";
 
 interface member {
     id: string;
@@ -54,6 +55,14 @@ const MemberPage = () => {
         );
     }
 
+    const deleteMemberData = (deletedMember: member) => {
+        setMembers((prevMember) => {
+            // Filter out the deleted form based on its id
+            const updatedMembers = prevMember.filter((member) => member.id !== deletedMember.id);
+            return updatedMembers;
+        });
+    };
+
     return (
 
         <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
@@ -70,16 +79,19 @@ const MemberPage = () => {
                         <TableCaption>End of list</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
-                                <TableHead><Button variant="link">CodeForces</Button></TableHead>
-                                <TableHead><Button variant="link">Leetcode</Button></TableHead>
-                                <TableHead className="text-right">Show Details</TableHead>
+                                <TableHead className="text-center">Name</TableHead>
+                                <TableHead className="text-center">Email</TableHead>
+                                <TableHead className="text-center"><Button variant="link">CodeForces</Button></TableHead>
+                                <TableHead className="text-center"><Button variant="link">Leetcode</Button></TableHead>
+                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                    <TableHead className="text-center">Action</TableHead>
+                                </RoleGateForComponent>
+                                <TableHead className="text-center">Show Details</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {members.map((member) => (
-                                <MemberRow memberData={member} onUpdateMemberData={updateMemberData} />
+                                <MemberRow memberData={member} onUpdateMemberData={updateMemberData} onDeleteMemberData={deleteMemberData} />
                             ))}
                         </TableBody >
                     </Table>

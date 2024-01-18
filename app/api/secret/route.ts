@@ -4,11 +4,23 @@ import { generateSecretToken } from "@/lib/token";
 
 
 export async function GET(req: NextRequest) {
-    
+
+    const expectedSecretKey = process.env.SECRET_KEY;
+    const expectedSecretAccessKey = process.env.SECRET_ACCESS_KEY;
+
+    const secretKey = req.headers.get('secretKey');
+    const secretAccessKey = req.headers.get('secretAccessKey');
+
+    if (secretKey !== expectedSecretKey || secretAccessKey !== expectedSecretAccessKey) {
+        return new NextResponse(JSON.stringify({ error: 'Unauthorized access' }), {
+            status: 401, // Unauthorized
+        });
+    }
+
     const cfUserName = req.nextUrl.searchParams.get('cfUserName') as string;
     const discordId = req.nextUrl.searchParams.get('discordId') as string;
     if (!cfUserName || !discordId) {
-        return new NextResponse(null, {
+        return new NextResponse(JSON.stringify({ error: 'username not present' }), {
             status: 400
         })
     }

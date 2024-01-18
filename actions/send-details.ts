@@ -30,7 +30,6 @@ export const sendDetails = async (values: z.infer<typeof DetailSchema>, token: s
     }
 
 
-
     const validatedFields = DetailSchema.safeParse(values)
 
     if (!validatedFields.success) {
@@ -41,6 +40,9 @@ export const sendDetails = async (values: z.infer<typeof DetailSchema>, token: s
 
     const { email, name, codeForces, leetcode, resume, message, organization, phoneNumber, cgpa, yoe, jobId } = validatedFields.data;
 
+    if (existingToken.cfUserName != codeForces) {
+        return { error: "Codeforces username must be same as in discord bot" }
+    }
 
     const existingMember = await getMemberbyCodeForcesId(codeForces)
 

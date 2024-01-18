@@ -21,6 +21,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { RoleGateForComponent } from "@/components/auth/role-gate-component";
 import { userDelete } from "@/actions/user";
 import { DialogFooter } from "@/components/ui/dialog";
+import { VerifierDetail } from "./verifierDetail";
 
 
 interface userProps {
@@ -32,6 +33,7 @@ interface userProps {
     password: string | null;
     organization: string | null;
     isVerified: boolean;
+    verifiedBy: string | null
     role: UserRole;
     isTwoFactorEnabled: boolean;
 }
@@ -96,13 +98,22 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
     return (
 
         <TableRow key={userData.id}>
-            <TableCell className="font-medium">{userData.name}</TableCell>
-            <TableCell>{userData.email}</TableCell>
-            <TableCell>{userData.organization ? userData.organization[0].toUpperCase() + userData.organization.slice(1) : "Default"}</TableCell>
-            <TableCell>{userData.isVerified ? <IoMdCheckmark /> : <ImCross />}</TableCell>
-            <TableCell>{userData.role}</TableCell>
-            <TableCell className="text-right">
-                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+            <TableCell className="text-center font-medium">{userData.name}</TableCell>
+            <TableCell className="text-center">{userData.email}</TableCell>
+            <TableCell className="text-center">{userData.organization ? userData.organization[0].toUpperCase() + userData.organization.slice(1) : "Default"}</TableCell>
+            <TableCell className="text-center">{userData.isVerified ? <IoMdCheckmark /> : <ImCross />}</TableCell>
+            <TableCell className="text-center">{userData.role}</TableCell>
+
+            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+
+                <TableCell className="text-center">{userData.verifiedBy ? <VerifierDetail id={userData.verifiedBy} /> : <Button variant="ghost">
+                    Unverified
+                </Button>}</TableCell>
+
+            </RoleGateForComponent>
+
+            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                <TableCell className="text-center">
                     <DialogDemo
                         dialogTrigger="Delete"
                         dialogTitle="Delete User"
@@ -114,9 +125,10 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
                         </DialogFooter>
                     </DialogDemo>
 
-                </RoleGateForComponent>
-            </TableCell>
-            <TableCell className="text-right">
+                </TableCell>
+            </RoleGateForComponent>
+
+            <TableCell className="text-center">
                 <DialogDemo
                     dialogTrigger="Edit User"
                     dialogTitle="Edit User"

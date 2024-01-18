@@ -91,18 +91,19 @@ const MemberPage = () => {
                         <TableCaption>End of list</TableCaption>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Organization</TableHead>
-                                <TableHead>Job Id</TableHead>
-                                <TableHead>Phone Number</TableHead>
-                                <TableHead>CGPA</TableHead>
-                                <TableHead>{"Exp(year)"}</TableHead>
-                                <TableHead>Message</TableHead>
-                                <TableHead><Button variant="link">Resume</Button></TableHead>
-                                <TableHead>Status</TableHead>
+                                <TableHead className="text-center">Organization</TableHead>
+                                <TableHead className="text-center">Job Id</TableHead>
+                                <TableHead className="text-center">Phone Number</TableHead>
+                                <TableHead className="text-center">CGPA</TableHead>
+                                <TableHead className="text-center">{"Exp(year)"}</TableHead>
+                                <TableHead className="text-center">Message</TableHead>
+                                <TableHead className="text-center"><Button variant="link">Resume</Button></TableHead>
+                                <TableHead className="text-center">Status</TableHead>
+                                <TableHead className="text-center">Response</TableHead>
                                 <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                                    <TableHead>Verified By</TableHead>
+                                    <TableHead className="text-center">Verified By</TableHead>
                                 </RoleGateForComponent>
-                                    <TableHead className="text-right">Action</TableHead>
+                                <TableHead className="text-center">Action</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>

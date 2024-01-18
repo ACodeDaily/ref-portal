@@ -39,7 +39,6 @@ import * as React from "react"
 import { formUpdateSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import { formDelete, formUpdate } from "@/actions/formUpdate";
-import { RoleGate } from "@/components/auth/role-gate";
 import { DialogFooter } from "@/components/ui/dialog";
 import { RoleGateForComponent } from "@/components/auth/role-gate-component";
 import { VerifierDetail } from "./verifierDetail";
@@ -103,26 +102,36 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
     return (
 
         <TableRow key={formData.id}>
-            <TableCell className="font-medium">{formData.organization}</TableCell>
-            <TableCell>{formData.jobId}</TableCell>
-            <TableCell> {formData.phoneNumber}</TableCell>
-            <TableCell> {formData.cgpa}</TableCell>
-            <TableCell> {formData.yoe}</TableCell>
-            <TableCell>{formData.message} </TableCell>
-            <TableCell><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
-            <TableCell>{formData.status} </TableCell>
+            <TableCell className="font-medium text-center">{formData.organization}</TableCell>
+            <TableCell className="text-center">{formData.jobId}</TableCell>
+            <TableCell className="text-center"> {formData.phoneNumber}</TableCell>
+            <TableCell className="text-center"> {formData.cgpa}</TableCell>
+            <TableCell className="text-center"> {formData.yoe}</TableCell>
+            <TableCell className="text-center">{formData.message} </TableCell>
+            <TableCell className="text-center"><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
+
+            <TableCell className="text-center">{formData.status} </TableCell>
+            <TableCell className="text-center"><DialogDemo
+                dialogTrigger="Response"
+                dialogTitle="Response"
+                dialogDescription="Key note from referrer side"
+                ButtonLabel="yes"
+            >
+                {formData.referrerResponse ? <p>{formData.referrerResponse} </p> : <p>No Response</p>}
+
+            </DialogDemo> </TableCell>
 
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
 
 
 
-                <TableCell>{formData.verifiedBy ? <VerifierDetail id={formData.verifiedBy} /> : <Button variant="ghost">
+                <TableCell className="text-center">{formData.verifiedBy ? <VerifierDetail id={formData.verifiedBy} /> : <Button variant="ghost">
                     Unverified
                 </Button>}</TableCell>
 
             </RoleGateForComponent>
 
-            <TableCell className="text-right">
+            <TableCell className="text-center">
 
                 <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                     <DialogDemo

@@ -12,6 +12,17 @@ export const getMemberbyCodeForcesId = async (codeForces: string) => {
     }
 };
 
+export const getMemberbyId = async (id: string) => {
+    try {
+        const member = await db.member.findUnique({
+            where: { id }
+        });
+
+        return member;
+    } catch {
+        return null;
+    }
+};
 
 export const getALlMember = async () => {
     try {
