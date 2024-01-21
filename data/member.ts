@@ -55,3 +55,24 @@ export const getMemberWithFormByOrganization = async (organization: string) => {
         return null;
     }
 };
+
+
+export const getMemberbyCodeForcesIdWithForms = async (codeForces: string) => {
+    try {
+        const member = await db.member.findUnique({
+            where: { codeForces },
+            include: {
+                forms: true
+            }
+
+        });
+
+        if (!member) {
+            throw new Error(`Member with CodeForces username ${codeForces} not found`);
+        }
+
+        return member;
+    } catch {
+        return null;
+    }
+};

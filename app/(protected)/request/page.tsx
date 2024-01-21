@@ -64,7 +64,7 @@ const ModeratorPage = () => {
 
     return (
         <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-            <Card className="w-[90%]">
+            <Card className="w-[90%] ">
                 <CardHeader>
                     <p className="text-2xl font-semibold text-center">
                         🆕 Requests
