@@ -53,6 +53,7 @@ const SettingsPage = () => {
             name: user?.name || undefined,
             email: user?.email || undefined,
             role: user?.role || undefined,
+            organization: user?.organization || undefined,
             isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
         }
     });
@@ -97,8 +98,8 @@ const SettingsPage = () => {
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="John Doe"
-                                                disabled={isPending}
+                                                placeholder="John Wick"
+                                                disabled={true}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -118,13 +119,50 @@ const SettingsPage = () => {
                                                         {...field}
                                                         placeholder="john.doe@example.com"
                                                         type="email"
-                                                        disabled={isPending}
+                                                        disabled={true}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="role"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Role</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        placeholder="John Doe"
+                                                        disabled={true}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="organization"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Organization</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        placeholder="******"
+                                                        disabled={true}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
                                     <FormField
                                         control={form.control}
                                         name="password"
@@ -143,6 +181,7 @@ const SettingsPage = () => {
                                             </FormItem>
                                         )}
                                     />
+
                                     <FormField
                                         control={form.control}
                                         name="newPassword"
@@ -163,39 +202,33 @@ const SettingsPage = () => {
                                     />
                                 </>
                             )}
-                            <FormField
-                                control={form.control}
-                                name="role"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Role</FormLabel>
-                                        <Select
-                                            disabled={isPending}
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select a role" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value={UserRole.ADMIN}>
-                                                    Admin
-                                                </SelectItem>
-                                                <SelectItem value={UserRole.MOD}>
-                                                    Mod
-                                                </SelectItem>
-                                                <SelectItem value={UserRole.REFERRER}>
-                                                    Referrer
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            {user?.isOAuth === false && (
+
+
+
+
+
+                        </div>
+                        <FormError message={error} />
+                        <FormSuccess message={success} />
+                        <Button
+                            disabled={isPending}
+                            type="submit"
+                        >
+                            Update
+                        </Button>
+                    </form>
+                </Form>
+            </CardContent>
+        </Card>
+    );
+}
+
+export default SettingsPage;
+
+
+
+// 2FA Activation
+{/* {user?.isOAuth === false && (
                                 <FormField
                                     control={form.control}
                                     name="isTwoFactorEnabled"
@@ -217,21 +250,4 @@ const SettingsPage = () => {
                                         </FormItem>
                                     )}
                                 />
-                            )}
-                        </div>
-                        <FormError message={error} />
-                        <FormSuccess message={success} />
-                        <Button
-                            disabled={isPending}
-                            type="submit"
-                        >
-                            Save
-                        </Button>
-                    </form>
-                </Form>
-            </CardContent>
-        </Card>
-    );
-}
-
-export default SettingsPage;
+                            )} */}

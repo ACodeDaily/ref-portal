@@ -31,6 +31,7 @@ export const SettingSchema = z.object({
     isTwoFactorEnabled: z.optional(z.boolean()),
     role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.REFERRER]),
     email: z.optional(z.string().email()),
+    organization: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),
 })
