@@ -91,7 +91,7 @@ const ModeratorPage = () => {
                         <TableBody>
                             {users.map((user) => (
                                 user.role === UserRole.REFERRER &&
-                                <ModeratorRow userData={user} onUpdateUserData={updateUserData} onDeleteUserData={deleteUserData} />
+                                <ModeratorRow key={user.id} userData={user} onUpdateUserData={updateUserData} onDeleteUserData={deleteUserData} />
                             ))}
                         </TableBody>
 

@@ -91,7 +91,7 @@ const MemberPage = () => {
                         </TableHeader>
                         <TableBody>
                             {members.map((member) => (
-                                <MemberRow memberData={member} onUpdateMemberData={updateMemberData} onDeleteMemberData={deleteMemberData} />
+                                <MemberRow key={member.id} memberData={member} onUpdateMemberData={updateMemberData} onDeleteMemberData={deleteMemberData} />
                             ))}
                         </TableBody >
                     </Table>

@@ -56,7 +56,7 @@ const MemberPage = () => {
         };
 
         fetchMemberForms(id);
-    }, []);
+    }, [id]);
 
 
     const updateFormData = (updatedFormData: form) => {
@@ -107,8 +107,8 @@ const MemberPage = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {forms.map((forms) => (
-                                <FormRow formData={forms} onUpdateFormData={updateFormData} onDeleteFormData={deleteFormData} />
+                            {forms.map((form) => (
+                                <FormRow key={form.id} formData={form} onUpdateFormData={updateFormData} onDeleteFormData={deleteFormData} />
                             ))}
                         </TableBody >
                     </Table>
