@@ -20,6 +20,7 @@ import {
 import { FormRow } from "../../_components/formRow";
 import { RoleGate } from "@/src/components/auth/role-gate";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";
+import PageLoader from "@/src/components/loader";
 
 interface form {
     id: string;
@@ -43,6 +44,7 @@ const MemberPage = () => {
 
     const searchParams = useSearchParams();
     const id = searchParams.get("id");
+    const [loadingForms, setLoadingForms] = useState(true)
 
 
     useEffect(() => {
@@ -53,6 +55,8 @@ const MemberPage = () => {
                 setForms(result.data || []); // Use an empty array as a default value if result.data is undefined or null
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoadingForms(false);
             }
         };
 
@@ -70,7 +74,6 @@ const MemberPage = () => {
 
     const deleteFormData = (deletedForm: form) => {
         setForms((prevForms) => {
-            // Filter out the deleted form based on its id
             const updatedForms = prevForms.filter((form) => form.id !== deletedForm.id);
             return updatedForms;
         });
@@ -78,46 +81,51 @@ const MemberPage = () => {
 
 
     return (
-        <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
-            <Card className="w-[90%]">
-                <CardHeader>
-                    <p className="text-2xl font-semibold text-center">
-                        📄 Forms
-                    </p>
-                </CardHeader>
-                <CardContent className="space-y-4">
+        <>
+            <PageLoader loading={loadingForms} />
+
+            <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
+                <Card className="w-[90%]">
+                    <CardHeader>
+                        <p className="text-2xl font-semibold text-center">
+                            📄 Forms
+                        </p>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
 
 
-                    <Table>
-                        <TableCaption>End of list</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="text-center">Organization</TableHead>
-                                <TableHead className="text-center">Job Id</TableHead>
-                                <TableHead className="text-center">Phone Number</TableHead>
-                                <TableHead className="text-center">CGPA</TableHead>
-                                <TableHead className="text-center">{"Exp(year)"}</TableHead>
-                                <TableHead className="text-center">{"Grad. Year"}</TableHead>
-                                <TableHead className="text-center">Message</TableHead>
-                                <TableHead className="text-center"><Button variant="link">Resume</Button></TableHead>
-                                <TableHead className="text-center">Status</TableHead>
-                                <TableHead className="text-center">Response</TableHead>
-                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                                    <TableHead className="text-center">Verified By</TableHead>
-                                </RoleGateForComponent>
-                                <TableHead className="text-center">Action</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {forms.map((form) => (
-                                <FormRow key={form.id} formData={form} onUpdateFormData={updateFormData} onDeleteFormData={deleteFormData} />
-                            ))}
-                        </TableBody >
-                    </Table>
+                        <Table>
+                            <TableCaption>End of list</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="text-center">Organization</TableHead>
+                                    <TableHead className="text-center">Job Id</TableHead>
+                                    <TableHead className="text-center">Phone Number</TableHead>
+                                    <TableHead className="text-center">CGPA</TableHead>
+                                    <TableHead className="text-center">{"Exp(year)"}</TableHead>
+                                    <TableHead className="text-center">{"Grad. Year"}</TableHead>
+                                    <TableHead className="text-center">Message</TableHead>
+                                    <TableHead className="text-center"><Button variant="link">Resume</Button></TableHead>
+                                    <TableHead className="text-center">Status</TableHead>
+                                    <TableHead className="text-center">Response</TableHead>
+                                    <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                        <TableHead className="text-center">Verified By</TableHead>
+                                    </RoleGateForComponent>
+                                    <TableHead className="text-center">Action</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {forms.map((form) => (
+                                    <FormRow key={form.id} formData={form} onUpdateFormData={updateFormData} onDeleteFormData={deleteFormData} />
+                                ))}
+                            </TableBody >
+                        </Table>
 
-                </CardContent>
-            </Card >
-        </RoleGate>
+                    </CardContent>
+                </Card >
+            </RoleGate>
+        </>
+
     );
 };
 

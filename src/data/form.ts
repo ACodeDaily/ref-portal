@@ -1,6 +1,6 @@
 import { currentUser } from "@/src/lib/auth";
 import { db } from "@/src/lib/db";
-import { UserRole } from "@prisma/client";
+import { Status, UserRole } from "@prisma/client";
 
 export const getFormbyId = async (id: string) => {
     try {
@@ -33,7 +33,8 @@ export const getFormsByMemberIdWithOrganization = async (formId: string) => {
             const forms = await db.form.findMany({
                 where: {
                     formId: formId,
-                    organization: user.organization
+                    organization: user.organization,
+                    status: Status.PENDING
                 },
 
             });

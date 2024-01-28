@@ -79,7 +79,7 @@ export const MemberRow = ({ memberData, onUpdateMemberData, onDeleteMemberData }
                         ButtonLabel="yes"
                     >
                         <DialogFooter>
-                            <Button type="submit" variant="destructive" onClick={() => (onSubmitDelete(memberData.id))}>Yes</Button>
+                            <Button type="submit" variant="destructive" disabled={isPending} onClick={() => (onSubmitDelete(memberData.id))}>Yes</Button>
                         </DialogFooter>
                     </DialogDemo>
 
