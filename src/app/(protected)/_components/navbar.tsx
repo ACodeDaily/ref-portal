@@ -163,7 +163,7 @@ const Navbar = () => {
                                     />
 
 
-                                    <Button type="submit">Add Organization</Button>
+                                    <Button type="submit" disabled={isPending}>Add Organization</Button>
                                 </form>
                             </Form>
 

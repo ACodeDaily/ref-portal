@@ -10,6 +10,8 @@ import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow, } fro
 
 import { ModeratorRow } from "../_components/moderatorRow";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";
+import PageLoader from "@/src/components/loader";
+
 
 interface user {
     id: string;
@@ -29,6 +31,8 @@ interface user {
 const ModeratorPage = () => {
 
     const [users, setUsers] = useState<user[]>([]);
+    const [loadingUsers, setLoadingUsers] = useState(true)
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,6 +42,8 @@ const ModeratorPage = () => {
                 setUsers(result.data || []); // Use an empty array as a default value if result.data is undefined or null
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoadingUsers(false);
             }
         };
 
@@ -63,42 +69,46 @@ const ModeratorPage = () => {
 
 
     return (
+        <>
+            <PageLoader loading={loadingUsers} />
 
-        <RoleGate allowedRole={[UserRole.ADMIN]}>
-            <Card className="w-[90%]">
-                <CardHeader>
-                    <p className="text-2xl font-semibold text-center">
-                        ⚙️ Moderators
-                    </p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <Table>
-                        <TableCaption>End of list</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="text-center">Name</TableHead>
-                                <TableHead className="text-center">Email</TableHead>
-                                <TableHead className="text-center">Organization</TableHead>
-                                <TableHead className="text-center">Verified</TableHead>
-                                <TableHead className="text-center">Role</TableHead>
-                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                                    <TableHead className="text-center">Verified By</TableHead>
-                                </RoleGateForComponent>
-                                <TableHead className="text-center">Action</TableHead>
-                                <TableHead className="text-center">Action</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {users.map((user) => (
-                                (user.role === UserRole.MOD) &&
-                                <ModeratorRow key={user.id} userData={user} onUpdateUserData={updateUserData} onDeleteUserData={deleteUserData} />
-                            ))}
-                        </TableBody>
+            <RoleGate allowedRole={[UserRole.ADMIN]}>
+                <Card className="w-[90%]">
+                    <CardHeader>
+                        <p className="text-2xl font-semibold text-center">
+                            ⚙️ Moderators
+                        </p>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <Table>
+                            <TableCaption>End of list</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="text-center">Name</TableHead>
+                                    <TableHead className="text-center">Email</TableHead>
+                                    <TableHead className="text-center">Organization</TableHead>
+                                    <TableHead className="text-center">Verified</TableHead>
+                                    <TableHead className="text-center">Role</TableHead>
+                                    <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                        <TableHead className="text-center">Verified By</TableHead>
+                                    </RoleGateForComponent>
+                                    <TableHead className="text-center">Action</TableHead>
+                                    <TableHead className="text-center">Action</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {users.map((user) => (
+                                    (user.role === UserRole.MOD) &&
+                                    <ModeratorRow key={user.id} userData={user} onUpdateUserData={updateUserData} onDeleteUserData={deleteUserData} />
+                                ))}
+                            </TableBody>
 
-                    </Table>
-                </CardContent>
-            </Card>
-        </RoleGate>
+                        </Table>
+                    </CardContent>
+                </Card>
+            </RoleGate>
+        </>
+
     );
 };
 

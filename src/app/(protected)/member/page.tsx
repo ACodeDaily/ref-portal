@@ -20,6 +20,8 @@ import { useCurrentRole } from "@/src/hooks/use-currrent-role";
 
 import { RoleGate } from "@/src/components/auth/role-gate";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";
+import PageLoader from "@/src/components/loader";
+
 
 interface member {
     id: string;
@@ -34,6 +36,8 @@ interface member {
 const MemberPage = () => {
 
     const [members, setMembers] = useState<member[]>([]);
+    const [loadingMembers, setLoadingMembers] = useState(true)
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,6 +57,8 @@ const MemberPage = () => {
 
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+                setLoadingMembers(false);
             }
         };
 
@@ -111,42 +117,45 @@ const MemberPage = () => {
 
 
     return (
+        <>
+            <PageLoader loading={loadingMembers} />
+            <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
+                <Card className="w-[90%]">
+                    <CardHeader>
+                        <p className="text-2xl font-semibold text-center">
+                            🧑‍🎓 Members
+                        </p>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
 
-        <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
-            <Card className="w-[90%]">
-                <CardHeader>
-                    <p className="text-2xl font-semibold text-center">
-                        🧑‍🎓 Members
-                    </p>
-                </CardHeader>
-                <CardContent className="space-y-4">
 
+                        <Table>
+                            <TableCaption>End of list</TableCaption>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className="text-center">Name</TableHead>
+                                    <TableHead className="text-center">Email</TableHead>
+                                    <TableHead className="text-center"><Button variant="link">CodeForces</Button></TableHead>
+                                    <TableHead className="text-center"><Button variant="link">Leetcode</Button></TableHead>
+                                    <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                        <TableHead className="text-center">Action</TableHead>
+                                    </RoleGateForComponent>
+                                    <TableHead className="text-center">Show Details</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {members.map((member) => (
+                                    <MemberRow key={member.id} memberData={member} onUpdateMemberData={updateMemberData} onDeleteMemberData={deleteMemberData} />
+                                ))}
+                            </TableBody >
+                        </Table>
 
-                    <Table>
-                        <TableCaption>End of list</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="text-center">Name</TableHead>
-                                <TableHead className="text-center">Email</TableHead>
-                                <TableHead className="text-center"><Button variant="link">CodeForces</Button></TableHead>
-                                <TableHead className="text-center"><Button variant="link">Leetcode</Button></TableHead>
-                                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                                    <TableHead className="text-center">Action</TableHead>
-                                </RoleGateForComponent>
-                                <TableHead className="text-center">Show Details</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {members.map((member) => (
-                                <MemberRow key={member.id} memberData={member} onUpdateMemberData={updateMemberData} onDeleteMemberData={deleteMemberData} />
-                            ))}
-                        </TableBody >
-                    </Table>
+                    </CardContent>
+                </Card >
 
-                </CardContent>
-            </Card >
+            </RoleGate>
+        </>
 
-        </RoleGate>
     );
 };
 

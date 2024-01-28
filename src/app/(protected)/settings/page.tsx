@@ -3,41 +3,22 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition, useState } from "react";
+import { useTransition, useState, use } from "react";
 import { useSession } from "next-auth/react";
-
-import { Switch } from "@/src/components/ui/switch";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/src/components/ui/select";
 import { SettingSchema } from "@/src/schemas";
-import {
-    Card,
-    CardHeader,
-    CardContent,
-} from "@/src/components/ui/card";
+
+import { Card, CardHeader, CardContent, } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { settings } from "@/src/actions/settings";
-import {
-    Form,
-    FormField,
-    FormControl,
-    FormItem,
-    FormLabel,
-    FormDescription,
-    FormMessage,
-} from "@/src/components/ui/form";
+import { Form, FormField, FormControl, FormItem, FormLabel, FormMessage, } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { useCurrentUser } from "@/src/hooks/use-current-user";
 import { FormError } from "@/src/components/form-error";
 import { FormSuccess } from "@/src/components/form-success";
-import { UserRole } from "@prisma/client";
+import { Label } from "@/src/components/ui/label";
 
 const SettingsPage = () => {
+
     const user = useCurrentUser();
 
     const [error, setError] = useState<string | undefined>();
@@ -50,11 +31,6 @@ const SettingsPage = () => {
         defaultValues: {
             password: undefined,
             newPassword: undefined,
-            name: user?.name || undefined,
-            email: user?.email || undefined,
-            role: user?.role || undefined,
-            organization: user?.organization || undefined,
-            isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
         }
     });
 
@@ -83,6 +59,21 @@ const SettingsPage = () => {
                 </p>
             </CardHeader>
             <CardContent>
+
+                <Label className="space-y-2">Name</Label>
+                <Input className="space-y-2" value={user?.name || ""} disabled={true} />
+
+                <Label className="space-y-2">Email</Label>
+                <Input className="space-y-2" value={user?.email || ""} disabled={true} />
+
+                <Label className="space-y-2">Role</Label>
+                <Input className="space-y-2" value={user?.role || ""} disabled={true} />
+
+                <Label className="space-y-2">Organization</Label>
+                <Input className="space-y-2" value={user?.organization || ""} disabled={true} />
+
+
+
                 <Form {...form}>
                     <form
                         className="space-y-6"
@@ -91,121 +82,41 @@ const SettingsPage = () => {
                         <div className="space-y-4">
                             <FormField
                                 control={form.control}
-                                name="name"
+                                name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel>Password</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                placeholder="John Wick"
-                                                disabled={true}
+                                                placeholder="******"
+                                                type="password"
+                                                disabled={isPending}
                                             />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            {user?.isOAuth === false && (
-                                <>
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Email</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="john.doe@example.com"
-                                                        type="email"
-                                                        disabled={true}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
 
-                                    <FormField
-                                        control={form.control}
-                                        name="role"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Role</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="John Doe"
-                                                        disabled={true}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="organization"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Organization</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="******"
-                                                        disabled={true}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="password"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Password</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="******"
-                                                        type="password"
-                                                        disabled={isPending}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="newPassword"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>New Password</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="******"
-                                                        type="password"
-                                                        disabled={isPending}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </>
-                            )}
-
-
-
-
+                            <FormField
+                                control={form.control}
+                                name="newPassword"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>New Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder="******"
+                                                type="password"
+                                                disabled={isPending}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
                         </div>
                         <FormError message={error} />
@@ -225,29 +136,3 @@ const SettingsPage = () => {
 
 export default SettingsPage;
 
-
-
-// 2FA Activation
-{/* {user?.isOAuth === false && (
-                                <FormField
-                                    control={form.control}
-                                    name="isTwoFactorEnabled"
-                                    render={({ field }) => (
-                                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                                            <div className="space-y-0.5">
-                                                <FormLabel>Two Factor Authentication</FormLabel>
-                                                <FormDescription>
-                                                    Enable two factor authentication for your account
-                                                </FormDescription>
-                                            </div>
-                                            <FormControl>
-                                                <Switch
-                                                    disabled={isPending}
-                                                    checked={field.value}
-                                                    onCheckedChange={field.onChange}
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                />
-                            )} */}

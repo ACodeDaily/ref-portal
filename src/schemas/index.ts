@@ -36,11 +36,6 @@ export const organizationAddSchema = z.object({
 
 
 export const SettingSchema = z.object({
-    name: z.optional(z.string()),
-    isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.REFERRER]),
-    email: z.optional(z.string().email()),
-    organization: z.optional(z.string().email()),
     password: z.optional(z.string().min(6)),
     newPassword: z.optional(z.string().min(6)),
 })
@@ -48,7 +43,6 @@ export const SettingSchema = z.object({
         if (data.password && !data.newPassword) {
             return false;
         }
-
         return true;
     }, {
         message: "New password is required!",
@@ -58,12 +52,13 @@ export const SettingSchema = z.object({
         if (data.newPassword && !data.password) {
             return false;
         }
-
         return true;
     }, {
         message: "Password is required!",
         path: ["password"]
     })
+
+
 
 
 export const LoginSchema = z.object({
