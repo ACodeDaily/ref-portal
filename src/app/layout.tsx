@@ -4,7 +4,7 @@ import './globals.css'
 
 // to use session in client mode
 import { SessionProvider } from 'next-auth/react'
-import { auth } from '@/auth'
+import { auth } from '@/src/auth'
 
 import { Toaster } from "@/src/components/ui/sonner"
 
