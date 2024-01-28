@@ -121,7 +121,7 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
                         ButtonLabel="yes"
                     >
                         <DialogFooter>
-                            <Button type="submit" variant="destructive" onClick={onSubmitDelete}>Yes</Button>
+                            <Button type="submit" variant="destructive" disabled={isPending} onClick={onSubmitDelete}>Yes</Button>
                         </DialogFooter>
                     </DialogDemo>
 
@@ -202,7 +202,7 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit">Save Changes</Button>
+                            <Button type="submit" disabled={isPending}>Save Changes</Button>
                         </form>
                     </Form>
 

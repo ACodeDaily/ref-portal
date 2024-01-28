@@ -143,7 +143,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                         ButtonLabel="yes"
                     >
                         <DialogFooter>
-                            <Button type="submit" variant="destructive" onClick={onSubmitDelete}>Yes</Button>
+                            <Button type="submit" variant="destructive" onClick={onSubmitDelete} disabled={isPending}>Yes</Button>
                         </DialogFooter>
                     </DialogDemo>
 
@@ -215,7 +215,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                                         </FormItem>
                                     )}
                                 />
-                                <Button type="submit">Save Changes</Button>
+                                <Button type="submit" disabled={isPending}>Save Changes</Button>
                             </form>
                         </Form>
 
