@@ -47,15 +47,20 @@ export const getUserByIdReqInfo = async (id: string) => {
 
 export interface UserQuery {
     role?: UserRole[];
+    organization?: string | { not: string };
 }
 
 export const getAllUsersWithRole = async (query?: UserQuery) => {
     try {
+        const whereClause: any = {
+            role: query?.role ? { in: query.role } : undefined,
+            organization: query?.organization || undefined,
+        };
+
         const users = await db.user.findMany({
-            where: {
-                role: query?.role ? { in: query.role } : undefined,
-            },
+            where: whereClause,
         });
+        
         return users;
     } catch (error) {
         console.error('Error fetching users with role:', error);

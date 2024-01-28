@@ -9,6 +9,11 @@ export async function GET() {
         role: [UserRole.USER],
     };
     if (role === UserRole.ADMIN || role === UserRole.MOD) {
+
+        if (role === UserRole.MOD) {
+            query.organization = { not: "ACD Team" };
+        }
+
         const data = await getAllUsersWithRole(query);
         return new NextResponse(JSON.stringify({ data }), { status: 200 })
     }
