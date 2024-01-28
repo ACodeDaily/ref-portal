@@ -2,7 +2,7 @@
 
 import * as z from "zod"
 
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 
 import { useForm } from "react-hook-form"
 
@@ -32,7 +32,11 @@ import { FormError } from "@/src/components/form-error"
 import { FormSuccess } from "@/src/components/form-success"
 import { register } from "@/src/actions/register"
 
-
+interface organization {
+    id: string;
+    name: string
+    normalizedLowerCase: string;
+}
 
 
 
@@ -40,6 +44,24 @@ export const RegisterForm = () => {
 
     const [error, setError] = useState<string | undefined>("")
     const [success, setSuccess] = useState<string | undefined>("")
+
+    const [organizations, setOrganizations] = useState<organization[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/organizations'); // Adjust the API endpoint based on your actual setup
+                const result = await response.json();
+                setOrganizations(result.data || []); // Use an empty array as a default value if result.data is undefined or null
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
 
     const [isPending, startTransition] = useTransition()
 
@@ -153,12 +175,14 @@ export const RegisterForm = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        <SelectItem value="morgan stanley">
-                                            Morgan Stanley
+                                        <SelectItem value="ACD Team">
+                                            ACD Team
                                         </SelectItem>
-                                        <SelectItem value="microsoft">
-                                            Microsoft
-                                        </SelectItem>
+                                        {organizations.map((org) => (
+                                            <SelectItem key={org.id} value={org.name}>
+                                                {org.name}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />

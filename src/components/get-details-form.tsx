@@ -3,7 +3,7 @@
 
 import * as z from "zod"
 
-import { useState, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 
 import { useForm } from "react-hook-form"
 
@@ -34,8 +34,13 @@ import {
 } from "@/src/components/ui/select";
 import { sendDetails } from "@/src/actions/send-details"
 import { useSearchParams } from "next/navigation"
+import { Textarea } from "./ui/textarea"
 
-
+interface organization {
+    id: string;
+    name: string
+    normalizedLowerCase: string;
+}
 
 const GetDetailsForm = () => {
 
@@ -60,9 +65,27 @@ const GetDetailsForm = () => {
             phoneNumber: "",
             cgpa: "",
             yoe: "",
+            yog: "",
             jobId: "",
         }
     });
+
+
+    const [organizations, setOrganizations] = useState<organization[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/organizations'); // Adjust the API endpoint based on your actual setup
+                const result = await response.json();
+                setOrganizations(result.data || []); // Use an empty array as a default value if result.data is undefined or null
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const onSubmit = (values: z.infer<typeof DetailSchema>) => {
         setError("");
@@ -89,13 +112,13 @@ const GetDetailsForm = () => {
                 <Header label="Submit your details" />
             </CardHeader>
 
-            <CardContent className="w-full flex flex-col gap-y-8 items-center justify-center">
+            <CardContent className="w-full flex flex-col gap-y-4 items-center justify-center">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-6"
+                        className="space-y-8"
                     >
-                        <div className="space-y-2">
-                            <div className="flex flex-row gap-x-2">
+                        <div className="space-y-1">
+                            <div className="flex flex-row gap-x-2 justify-between">
                                 <FormField
                                     control={form.control}
                                     name="name"
@@ -106,7 +129,7 @@ const GetDetailsForm = () => {
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="Abhishek Gupta"
+                                                    placeholder="John Wick"
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -124,7 +147,7 @@ const GetDetailsForm = () => {
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="john.doe@email.com"
+                                                    placeholder="john.wick@assassin.com"
                                                     type="email"
                                                 />
                                             </FormControl>
@@ -133,7 +156,7 @@ const GetDetailsForm = () => {
                                     )}
                                 />
                             </div>
-                            <div className="flex flex-row gap-x-2">
+                            <div className="flex flex-row gap-x-2 justify-between">
                                 <FormField
                                     control={form.control}
                                     name="codeForces"
@@ -144,7 +167,7 @@ const GetDetailsForm = () => {
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="me_pranav"
+                                                    placeholder="BabaYaga"
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -162,7 +185,7 @@ const GetDetailsForm = () => {
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="me_pranav"
+                                                    placeholder="BabaYaga"
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -200,7 +223,7 @@ const GetDetailsForm = () => {
                                                 <Input
                                                     {...field}
                                                     disabled={isPending}
-                                                    placeholder="AD78456"
+                                                    placeholder="JR-007B1K9"
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -208,74 +231,10 @@ const GetDetailsForm = () => {
                                     )}
                                 />
                             </div>
-                            <FormField
-                                control={form.control}
-                                name="message"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Message</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder=""
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+
+
 
                             <div className="flex flex-row gap-x-2 justify-between">
-                                <FormField
-                                    control={form.control}
-                                    name="organization"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Organization</FormLabel>
-                                            <Select
-                                                disabled={isPending}
-                                                onValueChange={field.onChange}
-                                                defaultValue={field.value}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select organization" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value="morgan stanley">
-                                                        Morgan Stanley
-                                                    </SelectItem>
-                                                    <SelectItem value="microsoft">
-                                                        Microsoft
-                                                    </SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="phoneNumber"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Phone Number</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    disabled={isPending}
-                                                    placeholder=""
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div className="flex flex-row gap-x-2">
                                 <FormField
                                     control={form.control}
                                     name="cgpa"
@@ -296,6 +255,27 @@ const GetDetailsForm = () => {
 
                                 <FormField
                                     control={form.control}
+                                    name="yog"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Year of Graduation</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder=""
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+
+                            </div>
+                            <div className="flex flex-row gap-x-2 justify-between">
+                                <FormField
+                                    control={form.control}
                                     name="yoe"
                                     render={({ field }) => (
                                         <FormItem>
@@ -311,7 +291,72 @@ const GetDetailsForm = () => {
                                         </FormItem>
                                     )}
                                 />
+
+
+                                <FormField
+                                    control={form.control}
+                                    name="phoneNumber"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Phone Number</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder=""
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
+                            <FormField
+                                control={form.control}
+                                name="organization"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Organization</FormLabel>
+                                        <Select
+                                            disabled={isPending}
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select organization" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {organizations.map((org) => (
+                                                    <SelectItem key={org.id} value={org.name}>
+                                                        {org.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="message"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Message</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                {...field}
+                                                disabled={isPending}
+                                                className="min-h-[100px]"
+                                                placeholder="Assassin's Accolade - Ranked Top 10% in the International Coding Combat; Graduated Summa Cum Laude from the Continental Academy of Excellence"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
                         <FormError message={error} />

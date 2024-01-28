@@ -22,6 +22,7 @@ interface formDataProps {
     phoneNumber: String;
     cgpa: String;
     yoe: String;
+    yog: String;
     jobId: String;
     status: Status;
     verifiedBy?: string | null
@@ -107,6 +108,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
             <TableCell className="text-center"> {formData.phoneNumber}</TableCell>
             <TableCell className="text-center"> {formData.cgpa}</TableCell>
             <TableCell className="text-center"> {formData.yoe}</TableCell>
+            <TableCell className="text-center"> {formData.yog}</TableCell>
             <TableCell className="text-center">{formData.message} </TableCell>
             <TableCell className="text-center"><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
 
@@ -193,7 +195,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                                             >
                                                 <FormControl>
                                                     <SelectTrigger>
-                                                        <SelectValue placeholder="Select a role" />
+                                                        <SelectValue placeholder="Select a Action" />
                                                     </SelectTrigger>
                                                 </FormControl>
                                                 <SelectContent>

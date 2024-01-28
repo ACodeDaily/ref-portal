@@ -20,6 +20,15 @@ export const ModeratorUpdateSchema = z.object({
     role: (z.enum([UserRole.ADMIN, UserRole.USER, UserRole.MOD, UserRole.REFERRER])),
 })
 
+export const organizationAddSchema = z.object({
+    name: z.string().min(1, {
+        message: "Organization is required"
+    }),
+})
+
+
+
+
 
 
 
@@ -134,12 +143,16 @@ export const DetailSchema = z.object({
         message: "Phone number is required"
     }),
 
-    cgpa: z.string().length(1, {
+    cgpa: z.string().min(1, {
         message: "CGPA is required"
     }),
 
-    yoe: z.string().length(1, {
-        message: "yoe is required"
+    yoe: z.string().min(1, {
+        message: "year of experience is required"
+    }),
+
+    yog: z.string().length(4, {
+        message: "year of graduation is required"
     }),
 
 });

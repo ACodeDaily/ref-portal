@@ -38,7 +38,7 @@ export const sendDetails = async (values: z.infer<typeof DetailSchema>, token: s
         }
     }
 
-    const { email, name, codeForces, leetcode, resume, message, organization, phoneNumber, cgpa, yoe, jobId } = validatedFields.data;
+    const { email, name, codeForces, leetcode, resume, message, organization, phoneNumber, cgpa, yoe, yog, jobId } = validatedFields.data;
 
     if (existingToken.cfUserName != codeForces) {
         return { error: "Codeforces username must be same as in discord bot" }
@@ -72,6 +72,7 @@ export const sendDetails = async (values: z.infer<typeof DetailSchema>, token: s
                 cgpa,
                 yoe,
                 jobId,
+                yog,
                 status: Status.PENDING,
             },
         });
@@ -82,7 +83,7 @@ export const sendDetails = async (values: z.infer<typeof DetailSchema>, token: s
                 email, name, codeForces, leetcode,
                 forms: {
                     create: {
-                        resume, message, organization, phoneNumber, cgpa, yoe, jobId, status: Status.PENDING
+                        resume, message, organization, phoneNumber, cgpa, yoe, jobId, yog, status: Status.PENDING
                     }
                 }
             },

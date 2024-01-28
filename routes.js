@@ -9,7 +9,8 @@ export const publicRoutes = [
     "/get-details",
     "/api/secret",
     "/search",
-    "/api/forms"
+    "/api/forms",
+    "/api/organizations",
 ]
 
 

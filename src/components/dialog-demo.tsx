@@ -15,7 +15,7 @@ interface DialogDemoProps {
     dialogTrigger: string;
     dialogTitle: string;
     dialogDescription: string;
-    ButtonLabel: string;
+    ButtonLabel?: string;
 
 }
 
