@@ -40,6 +40,7 @@ model Form{
   cgpa          String
   yoe           String
   jobId         String
+  yog           String
   status        Status @default(PENDING)
   formCreatedAt  DateTime   @default(now())
   referrerResponse String?
@@ -146,4 +147,13 @@ model SecretToken{
   expires DateTime
 
   @@unique([cfUserName,token])
+}
+
+// organization
+
+model Organization {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  normalizedLowerCase String @unique
+  name String
+
 }
