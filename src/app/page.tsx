@@ -5,6 +5,8 @@ import { cn } from "@/src/lib/utils"
 import { Button } from '@/src/components/ui/button'
 import { LoginButton } from "@/src/components/auth/login-button"
 import Logo from "@/src/components/logo"
+import Link from 'next/link'
+
 
 
 const font = Poppins({
@@ -22,7 +24,12 @@ export default function Home() {
                     <h1 className={cn('text-6xl font-semibold text-white drop-shadow-md', font.className,)}>ACD Referrer Portal</h1>
                 </div>
                 <p className='text-white text-lg'>Unlock your destiny with ACD Referrals.</p>
-                <div>
+                <div className="flex justify-center gap-x-2">
+
+                    <Button size="lg">
+                        <Link href="/search">Check Status</Link>
+                    </Button>
+
                     <LoginButton>
 
                         <Button variant="secondary" size="lg">
@@ -31,6 +38,6 @@ export default function Home() {
                     </LoginButton>
                 </div>
             </div>
-        </main>
+        </main >
     )
 }

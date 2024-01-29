@@ -19,6 +19,8 @@ import {
 } from "@/src/components/ui/table"
 import { FaGoogleDrive } from "react-icons/fa";
 
+import PageLoader from "@/src/components/loader";
+
 
 interface formData {
     id: string;
@@ -52,6 +54,9 @@ const SearchPageDetail = () => {
 
     const [cfUsername, setCfUsername] = useState<string | undefined>("")
 
+    const [loadingUsers, setLoadingUsers] = useState(false)
+
+
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCfUsername(event.target.value);
     };
@@ -60,6 +65,7 @@ const SearchPageDetail = () => {
 
     const fetchMemberWithForms = async () => {
         try {
+            setLoadingUsers(true)
             const response = await fetch(`/api/forms/?cfUserName=${cfUsername}`);
             const result = await response.json();
 
@@ -71,10 +77,13 @@ const SearchPageDetail = () => {
             }
         } catch (error) {
             toast.error("Something went wrong");
+        } finally {
+            setLoadingUsers(false);
         }
     };
 
     return (
+
         <Card className="w-[90%] shadow-md justify-center items-center my-2">
             <CardContent className="w-full flex flex-col gap-y-8 items-center justify-center">
                 <div className="flex w-full max-w-sm item-center space-x-2 mt-5 ml-5">
@@ -83,9 +92,10 @@ const SearchPageDetail = () => {
                     <Button type="submit" onClick={fetchMemberWithForms}>Get Details</Button>
                 </div>
             </CardContent>
-
+            <PageLoader loading={loadingUsers} />
             {details &&
                 <>
+
                     <Table>
                         <TableHeader>
                             <TableRow>
