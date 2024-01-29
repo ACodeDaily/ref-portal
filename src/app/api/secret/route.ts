@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         })
     }
     const data = await generateSecretToken(cfUserName, discordId);
-    const url = `http://localhost:3000/get-details?token=${data?.token}`
+    const url = `${process.env.NEXT_PUBLIC_APP_URL_FINAL}/get-details?token=${data?.token}`
     return new NextResponse(JSON.stringify({ url }), { status: 200 })
 }
 
