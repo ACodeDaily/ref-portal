@@ -100,14 +100,12 @@ const SearchPageDetail = () => {
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="text-center">Name</TableHead>
-                                <TableHead className="text-center">Email</TableHead>
                                 <TableHead className="text-center"><Button variant="link">CodeForces</Button></TableHead>
                                 <TableHead className="text-center"><Button variant="link">Leetcode</Button></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             <TableCell className="font-medium text-center">{details.name}</TableCell>
-                            <TableCell className="text-center">{details.email}</TableCell>
                             <TableCell className="text-center"><Button variant={"link"}><Link href={`https://codeforces.com/profile/${details.codeForces}`} target="__blank">{details.codeForces}</Link></Button> </TableCell>
                             <TableCell className="text-center"><Button variant={"link"}><Link href={`https://leetcode.com/${details.leetcode}`} target="__blank">{details.leetcode}</Link></Button> </TableCell>
                         </TableBody >
@@ -119,11 +117,6 @@ const SearchPageDetail = () => {
                             <TableRow>
                                 <TableHead className="text-center">Organization</TableHead>
                                 <TableHead className="text-center">Job Id</TableHead>
-                                <TableHead className="text-center">Phone Number</TableHead>
-                                <TableHead className="text-center">CGPA</TableHead>
-                                <TableHead className="text-center">{"Exp(year)"}</TableHead>
-                                <TableHead className="text-center">Message</TableHead>
-                                <TableHead className="text-center"><Button variant="link">Resume</Button></TableHead>
                                 <TableHead className="text-center">Status</TableHead>
                                 <TableHead className="text-center">Response</TableHead>
                             </TableRow>
@@ -134,11 +127,6 @@ const SearchPageDetail = () => {
                                 <TableRow key={form.id}>
                                     <TableCell className="font-medium text-center">{form.organization}</TableCell>
                                     <TableCell className="text-center">{form.jobId}</TableCell>
-                                    <TableCell className="text-center"> {form.phoneNumber}</TableCell>
-                                    <TableCell className="text-center"> {form.cgpa}</TableCell>
-                                    <TableCell className="text-center"> {form.yoe}</TableCell>
-                                    <TableCell className="text-center">{form.message} </TableCell>
-                                    <TableCell className="text-center"><Button variant={"link"}><Link href={`${form.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
 
                                     <TableCell className="text-center">{form.status} </TableCell>
                                     <TableCell className="text-center"><DialogDemo
