@@ -24,7 +24,7 @@ import { login } from "@/src/actions/login"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 
-
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 
 
@@ -73,7 +73,7 @@ export const LoginForm = () => {
         })
     }
 
-
+    const [passwordType, setPasswordType] = useState('password');
 
     return (
         <CardWrapper
@@ -138,12 +138,38 @@ export const LoginForm = () => {
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder="******"
-                                                type="password"
-                                            />
+                                            <div
+                                                style={{
+                                                    position: 'relative'
+                                                }}
+                                            >
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder="******"
+                                                    type={passwordType}
+                                                ></Input>
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '25%',
+                                                        right: '3%',
+                                                        bottom: '20%',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    {
+                                                        passwordType === "text" ?
+                                                            <FaRegEye
+                                                                onClick={() => setPasswordType('password')}
+                                                            />
+                                                            :
+                                                            <FaRegEyeSlash
+                                                                onClick={() => setPasswordType('text')}
+                                                            />
+                                                    }
+                                                </div>
+                                            </div>
                                         </FormControl>
                                         <Button
                                             size="sm"
