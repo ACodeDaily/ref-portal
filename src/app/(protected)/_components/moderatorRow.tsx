@@ -100,7 +100,7 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
         <TableRow key={userData.id}>
             <TableCell className="text-center font-medium">{userData.name}</TableCell>
             <TableCell className="text-center">{userData.email}</TableCell>
-            <TableCell className="text-center">{userData.organization ? userData.organization[0].toUpperCase() + userData.organization.slice(1) : "Default"}</TableCell>
+            <TableCell className="text-center">{userData.organization}</TableCell>
             <TableCell className="text-center">{userData.isVerified ? <IoMdCheckmark /> : <ImCross />}</TableCell>
             <TableCell className="text-center">{userData.role}</TableCell>
 

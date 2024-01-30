@@ -1,26 +1,19 @@
 "use client";
 
 import { Button } from "@/src/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
+import { Card, CardContent, CardHeader, CardDescription } from "@/src/components/ui/card";
 import { Status, UserRole } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation"
 
-
-
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/src/components/ui/table"
+import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow, TableCell } from "@/src/components/ui/table"
 
 import { FormRow } from "../../_components/formRow";
 import { RoleGate } from "@/src/components/auth/role-gate";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";
 import PageLoader from "@/src/components/loader";
+import { toast } from "sonner";
+
 
 interface form {
     id: string;
@@ -38,9 +31,20 @@ interface form {
     referrerResponse?: string | null
 }
 
+interface member {
+    id: string;
+    name: string;
+    email: string;
+    codeForces: string;
+    leetcode: string;
+    codeForcesRating?: number;
+}
+
+
 const MemberPage = () => {
 
     const [forms, setForms] = useState<form[]>([]);
+    const [member, setMember] = useState<member>();
 
     const searchParams = useSearchParams();
     const id = searchParams.get("id");
@@ -52,7 +56,9 @@ const MemberPage = () => {
             try {
                 const response = await fetch(`/api/members/${id}`); // Adjust the API endpoint based on your actual setup
                 const result = await response.json();
-                setForms(result.data || []); // Use an empty array as a default value if result.data is undefined or null
+                // console.log(result.data)
+                setForms(result.data.forms || []); // Use an empty array as a default value if result.data is undefined or null
+                setMember(result.data.member || null)
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -79,18 +85,29 @@ const MemberPage = () => {
         });
     };
 
+    const copyToClipboard = async (text: string, type: string) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            toast.success(`${type} copied to clipboard!`)
+        } catch (error) {
+            console.error('Error copying to clipboard:', error);
+        }
+    };
 
 
     return (
         <>
             <PageLoader loading={loadingForms} />
-
             <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
                 <Card className="w-[90%]">
                     <CardHeader>
                         <p className="text-2xl font-semibold text-center">
                             📄 Forms
                         </p>
+                        <CardDescription className="flex justify-between text-gray-950">
+                            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(member ? member.name : "", "Name")}>{`Name: ${member?.name}`}</TableCell>
+                            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(member ? member.email : "", "Email")}>{`Email: ${member?.email}`}</TableCell>
+                        </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
 
@@ -126,6 +143,8 @@ const MemberPage = () => {
                 </Card >
             </RoleGate>
         </>
+
+
 
     );
 };

@@ -24,10 +24,10 @@ import PageLoader from "@/src/components/loader";
 
 interface member {
     id: string;
-    name: string | null;
+    name: string;
     email: string;
-    codeForces: string | null;
-    leetcode: string | null;
+    codeForces: string;
+    leetcode: string;
     codeForcesRating?: number;
 }
 

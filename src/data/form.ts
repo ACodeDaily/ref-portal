@@ -20,26 +20,39 @@ export const getFormsByMemberIdWithOrganization = async (formId: string) => {
     try {
         if (!formId) return null;
 
+        let forms;
+
         if (user?.role === UserRole.ADMIN || user?.role === UserRole.MOD) {
 
-            const forms = await db.form.findMany({
+            forms = await db.form.findMany({
                 where: { formId },
+                include: {
+                    member: true,
+                },
 
             });
-            return forms;
         }
-
         else if (user?.role === UserRole.REFERRER) {
-            const forms = await db.form.findMany({
+            forms = await db.form.findMany({
                 where: {
                     formId: formId,
                     organization: user.organization,
                     status: Status.PENDING
                 },
+                include: {
+                    member: true,
+                },
 
             });
-            return forms;
         }
+
+        const uniqueMembers = new Set(forms?.map((form) => form.member));
+        const uniqueMembersArray = Array.from(uniqueMembers);
+
+        return {
+            forms: forms,
+            member: uniqueMembersArray.length === 1 ? uniqueMembersArray[0] : null,
+        };
 
     } catch {
         return null;

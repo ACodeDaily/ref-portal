@@ -10,10 +10,10 @@ import { useTransition } from "react";
 
 interface memberDataProps {
     id: string;
-    name: string | null;
+    name: string;
     email: string;
-    codeForces: string | null;
-    leetcode: string | null;
+    codeForces: string;
+    leetcode: string;
     codeForcesRating?: number;
 }
 
