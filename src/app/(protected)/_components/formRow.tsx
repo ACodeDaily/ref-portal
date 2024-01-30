@@ -97,12 +97,17 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
         });
     }
 
-
+    const statusColorClass =
+        formData.status === Status.ACCEPTED
+            ? 'bg-green-400'
+            : formData.status === Status.REJECTED
+                ? 'bg-red-300'
+                : 'bg-gray-100';
 
 
     return (
 
-        <TableRow key={formData.id}>
+        <TableRow key={formData.id} className={statusColorClass}>
             <TableCell className="font-medium text-center">{formData.organization}</TableCell>
             <TableCell className="text-center">{formData.jobId}</TableCell>
             <TableCell className="text-center"> {formData.phoneNumber}</TableCell>

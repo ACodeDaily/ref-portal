@@ -18,6 +18,7 @@ import {
 import { RoleGate } from "@/src/components/auth/role-gate";
 import { OrganizationRow } from "../_components/organizationRow";
 import PageLoader from "@/src/components/loader";
+import { useCurrentRole } from "@/src/hooks/use-currrent-role";
 
 interface organization {
     id: string;
@@ -30,20 +31,25 @@ const OrganizationPage = () => {
     const [organizations, setOrganizations] = useState<organization[]>([]);
     const [organizationLoader, setOrganizationLoader] = useState(true)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('/api/organizations'); // Adjust the API endpoint based on your actual setup
-                const result = await response.json();
-                setOrganizations(result.data || []); // Use an empty array as a default value if result.data is undefined or null
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setOrganizationLoader(false);
-            }
-        };
+    const currentROle = useCurrentRole();
 
-        fetchData();
+    useEffect(() => {
+        if (currentROle === UserRole.ADMIN) {
+            const fetchData = async () => {
+                try {
+                    const response = await fetch('/api/organizations'); // Adjust the API endpoint based on your actual setup
+                    const result = await response.json();
+                    setOrganizations(result.data || []); // Use an empty array as a default value if result.data is undefined or null
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setOrganizationLoader(false);
+                }
+            };
+            fetchData();
+        } else {
+            setOrganizationLoader(false);
+        }
     }, []);
 
 

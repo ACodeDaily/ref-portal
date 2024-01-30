@@ -1,4 +1,5 @@
 import { db } from "@/src/lib/db";
+import { Status } from "@prisma/client";
 
 export const getMemberbyCodeForcesId = async (codeForces: string) => {
     try {
@@ -44,6 +45,7 @@ export const getMemberWithFormByOrganization = async (organization: string) => {
                 forms: {
                     some: {
                         organization: organization,
+                        status: Status.PENDING,
                     },
                 },
             },

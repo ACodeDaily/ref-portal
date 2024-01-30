@@ -2,7 +2,7 @@
 
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
-import { Status, UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { MemberRow } from "../_components/memberRow";
 
@@ -16,7 +16,6 @@ import {
     TableRow,
 } from "@/src/components/ui/table"
 
-import { useCurrentRole } from "@/src/hooks/use-currrent-role";
 
 import { RoleGate } from "@/src/components/auth/role-gate";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";

@@ -11,6 +11,7 @@ import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow, } fro
 import { ModeratorRow } from "../_components/moderatorRow";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";
 import PageLoader from "@/src/components/loader";
+import { useCurrentRole } from "@/src/hooks/use-currrent-role";
 
 interface user {
     id: string;
@@ -32,21 +33,28 @@ const ModeratorPage = () => {
     const [users, setUsers] = useState<user[]>([]);
     const [loadingUsers, setLoadingUsers] = useState(true)
 
+    const currentROle = useCurrentRole();
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('/api/referrers'); // Adjust the API endpoint based on your actual setup
-                const result = await response.json();
-                setUsers(result.data || []); // Use an empty array as a default value if result.data is undefined or null
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoadingUsers(false);
-            }
-        };
+        if (currentROle === UserRole.ADMIN || currentROle === UserRole.MOD) {
+            const fetchData = async () => {
+                try {
+                    const response = await fetch('/api/referrers'); // Adjust the API endpoint based on your actual setup
+                    const result = await response.json();
+                    setUsers(result.data || []); // Use an empty array as a default value if result.data is undefined or null
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setLoadingUsers(false);
+                }
+            };
 
-        fetchData();
+            fetchData();
+        } else {
+            setLoadingUsers(false);
+
+        }
     }, []);
 
 

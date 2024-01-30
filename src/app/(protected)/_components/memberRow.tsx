@@ -14,6 +14,7 @@ interface memberDataProps {
     email: string | null;
     codeForces: string | null;
     leetcode: string | null;
+    codeForcesRating?: number;
 }
 
 
@@ -67,7 +68,7 @@ export const MemberRow = ({ memberData, onUpdateMemberData, onDeleteMemberData }
         <TableRow key={memberData.id}>
             <TableCell className="font-medium text-center">{memberData.name}</TableCell>
             <TableCell className="text-center">{memberData.email}</TableCell>
-            <TableCell className="text-center"><Button variant={"link"}><Link href={`https://codeforces.com/profile/${memberData.codeForces}`} target="__blank">{memberData.codeForces}</Link></Button> </TableCell>
+            <TableCell className="text-center"><Button variant={"link"}><Link href={`https://codeforces.com/profile/${memberData.codeForces}`} target="__blank">{`${memberData.codeForces} (${memberData.codeForcesRating})`}</Link></Button> </TableCell>
             <TableCell className="text-center"><Button variant={"link"}><Link href={`https://leetcode.com/${memberData.leetcode}`} target="__blank">{memberData.leetcode}</Link></Button> </TableCell>
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                 <TableCell className="text-center">

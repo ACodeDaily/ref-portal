@@ -105,9 +105,11 @@ const SearchPageDetail = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableCell className="font-medium text-center">{details.name}</TableCell>
-                            <TableCell className="text-center"><Button variant={"link"}><Link href={`https://codeforces.com/profile/${details.codeForces}`} target="__blank">{details.codeForces}</Link></Button> </TableCell>
-                            <TableCell className="text-center"><Button variant={"link"}><Link href={`https://leetcode.com/${details.leetcode}`} target="__blank">{details.leetcode}</Link></Button> </TableCell>
+                            <TableRow>
+                                <TableCell className="font-medium text-center">{details.name}</TableCell>
+                                <TableCell className="text-center"><Button variant={"link"}><Link href={`https://codeforces.com/profile/${details.codeForces}`} target="__blank">{details.codeForces}</Link></Button> </TableCell>
+                                <TableCell className="text-center"><Button variant={"link"}><Link href={`https://leetcode.com/${details.leetcode}`} target="__blank">{details.leetcode}</Link></Button> </TableCell>
+                            </TableRow>
                         </TableBody >
                     </Table>
 
@@ -123,8 +125,13 @@ const SearchPageDetail = () => {
                         </TableHeader>
                         <TableBody>
                             {details.forms.map((form) => (
-
-                                <TableRow key={form.id}>
+                                <TableRow key={form.id} className={
+                                    form.status === Status.ACCEPTED
+                                        ? 'bg-green-400'
+                                        : form.status === Status.REJECTED
+                                            ? 'bg-red-300'
+                                            : 'bg-gray-100'
+                                }>
                                     <TableCell className="font-medium text-center">{form.organization}</TableCell>
                                     <TableCell className="text-center">{form.jobId}</TableCell>
 
