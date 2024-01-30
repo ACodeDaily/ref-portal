@@ -25,14 +25,14 @@ import PageLoader from "@/src/components/loader";
 interface form {
     id: string;
     formId: string
-    resume: String;
-    message: String;
-    organization: String;
-    phoneNumber: String;
-    cgpa: String;
-    yoe: String;
-    yog: String;
-    jobId: String;
+    resume: string;
+    message: string;
+    organization: string;
+    phoneNumber: string;
+    cgpa: string;
+    yoe: string;
+    yog: string;
+    jobId: string;
     status: Status;
     verifiedBy?: string | null
     referrerResponse?: string | null
@@ -78,6 +78,7 @@ const MemberPage = () => {
             return updatedForms;
         });
     };
+
 
 
     return (

@@ -30,13 +30,13 @@ import {
 interface formDataProps {
     id: string;
     formId: string
-    resume: String;
-    message: String;
-    organization: String;
-    phoneNumber: String;
-    cgpa: String;
-    yoe: String;
-    jobId: String;
+    resume: string;
+    message: string;
+    organization: string;
+    phoneNumber: string;
+    cgpa: string;
+    yoe: string;
+    jobId: string;
     status: Status;
     verifiedBy?: string | null
     referrerResponse?: string | null

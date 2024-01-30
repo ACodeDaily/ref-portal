@@ -25,7 +25,7 @@ import PageLoader from "@/src/components/loader";
 interface member {
     id: string;
     name: string | null;
-    email: string | null;
+    email: string;
     codeForces: string | null;
     leetcode: string | null;
     codeForcesRating?: number;
@@ -84,13 +84,15 @@ const MemberPage = () => {
     const fetchCodeforcesInfo = async (membersData: member[]): Promise<member[]> => {
         const handles = membersData.map((member) => member.codeForces).join(';');
         const apiUrl = `https://codeforces.com/api/user.info?handles=${handles}`;
+        // const apiUrl = `https://random-data-api.com/api/v2/users?size=2`;
 
         try {
             const response = await fetch(apiUrl);
             const result = await response.json();
-
+            console.log(result);
             if (result.status === 'OK') {
                 // Extract Codeforces rating information from the API response
+                console.log(result)
                 const codeforcesInfo: member[] = result.result.map((userInfo: any) => {
                     const codeForcesRating = userInfo.rating || 0;
 

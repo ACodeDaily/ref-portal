@@ -16,14 +16,14 @@ import { FaGoogleDrive } from "react-icons/fa";
 interface formDataProps {
     id: string;
     formId: string
-    resume: String;
-    message: String;
-    organization: String;
-    phoneNumber: String;
-    cgpa: String;
-    yoe: String;
-    yog: String;
-    jobId: String;
+    resume: string;
+    message: string;
+    organization: string;
+    phoneNumber: string;
+    cgpa: string;
+    yoe: string;
+    yog: string;
+    jobId: string;
     status: Status;
     verifiedBy?: string | null
     referrerResponse?: string | null
@@ -97,6 +97,15 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
         });
     }
 
+    const copyToClipboard = async (text: string, type: string) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            toast.success(`${type} copied to clipboard!`)
+        } catch (error) {
+            console.error('Error copying to clipboard:', error);
+        }
+    };
+
     const statusColorClass =
         formData.status === Status.ACCEPTED
             ? 'bg-green-400'
@@ -109,12 +118,12 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
 
         <TableRow key={formData.id} className={statusColorClass}>
             <TableCell className="font-medium text-center">{formData.organization}</TableCell>
-            <TableCell className="text-center">{formData.jobId}</TableCell>
-            <TableCell className="text-center"> {formData.phoneNumber}</TableCell>
-            <TableCell className="text-center"> {formData.cgpa}</TableCell>
-            <TableCell className="text-center"> {formData.yoe}</TableCell>
-            <TableCell className="text-center"> {formData.yog}</TableCell>
-            <TableCell className="text-center">{formData.message} </TableCell>
+            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.jobId, "Job Id")}>{formData.jobId}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.phoneNumber, "Phone Number")}> {formData.phoneNumber}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.cgpa, "CGPA")}> {formData.cgpa}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.yoe, "Year of Experience")}> {formData.yoe}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.yog, "Year of Graduation")}> {formData.yog}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.message, "Message")}>{formData.message} </TableCell>
             <TableCell className="text-center"><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
 
             <TableCell className="text-center">{formData.status} </TableCell>
