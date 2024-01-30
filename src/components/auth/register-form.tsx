@@ -6,7 +6,7 @@ import { useEffect, useState, useTransition } from "react"
 
 import { useForm } from "react-hook-form"
 
-
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -32,6 +32,7 @@ import { FormError } from "@/src/components/form-error"
 import { FormSuccess } from "@/src/components/form-success"
 import { register } from "@/src/actions/register"
 import PageLoader from "../loader"
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 
 
@@ -95,7 +96,7 @@ export const RegisterForm = () => {
         })
     }
 
-
+    const [passwordType, setPasswordType] = useState('password');
 
     return (
 
@@ -157,12 +158,38 @@ export const RegisterForm = () => {
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                {...field}
-                                                disabled={isPending}
-                                                placeholder="******"
-                                                type="password"
-                                            />
+                                            <div
+                                                style={{
+                                                    position: 'relative'
+                                                }}
+                                            >
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder="******"
+                                                    type={passwordType}
+                                                ></Input>
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '25%',
+                                                        right: '3%',
+                                                        bottom: '20%',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    {
+                                                        passwordType === "text" ?
+                                                            <FaRegEye
+                                                                onClick={() => setPasswordType('password')}
+                                                            />
+                                                            :
+                                                            <FaRegEyeSlash
+                                                                onClick={() => setPasswordType('text')}
+                                                            />
+                                                    }
+                                                </div>
+                                            </div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
