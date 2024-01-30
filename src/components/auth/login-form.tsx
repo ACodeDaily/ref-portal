@@ -154,7 +154,8 @@ export const LoginForm = () => {
                                                         position: 'absolute',
                                                         top: '25%',
                                                         right: '3%',
-                                                        bottom: '20%'
+                                                        bottom: '20%',
+                                                        cursor: 'pointer'
                                                     }}
                                                 >
                                                     {
