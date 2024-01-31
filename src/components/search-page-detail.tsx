@@ -82,14 +82,20 @@ const SearchPageDetail = () => {
         }
     };
 
+    const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            fetchMemberWithForms();
+        }
+    };
+
     return (
 
         <Card className="w-[90%] shadow-md justify-center items-center my-2">
             <CardContent className="w-full flex flex-col gap-y-8 items-center justify-center">
                 <div className="flex w-full max-w-sm item-center space-x-2 mt-5 ml-5">
                     <Input type="text" placeholder="CodeForces Username" value={cfUsername}
-                        onChange={handleInputChange} />
-                    <Button type="submit" onClick={fetchMemberWithForms}>Get Details</Button>
+                        onChange={handleInputChange} onKeyDown={handleKeyDown} />
+                    <Button type="submit" onClick={fetchMemberWithForms} >Get Details</Button>
                 </div>
             </CardContent>
             <PageLoader loading={loadingUsers} />

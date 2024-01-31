@@ -3,11 +3,15 @@ import { Status } from "@prisma/client";
 
 export const getMemberbyCodeForcesId = async (codeForces: string) => {
     try {
-        const member = await db.member.findUnique({
-            where: { codeForces }
+        const member = await db.member.findMany({
+            where: {
+                codeForces: {
+                    contains: codeForces,
+                    mode: 'insensitive'
+                }
+            },
         });
-
-        return member;
+        return member[0];
     } catch {
         return null;
     }
@@ -61,19 +65,23 @@ export const getMemberWithFormByOrganization = async (organization: string) => {
 
 export const getMemberbyCodeForcesIdWithForms = async (codeForces: string) => {
     try {
-        const member = await db.member.findUnique({
-            where: { codeForces },
+        const member = await db.member.findMany({
+            where: {
+                codeForces: {
+                    contains: codeForces,
+                    mode: 'insensitive'
+                }
+            },
             include: {
                 forms: true
             }
-
         });
 
-        if (!member) {
+        if (!member[0]) {
             throw new Error(`Member with CodeForces username ${codeForces} not found`);
         }
 
-        return member;
+        return member[0];
     } catch {
         return null;
     }
