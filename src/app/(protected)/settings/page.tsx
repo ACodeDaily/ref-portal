@@ -16,6 +16,7 @@ import { useCurrentUser } from "@/src/hooks/use-current-user";
 import { FormError } from "@/src/components/form-error";
 import { FormSuccess } from "@/src/components/form-success";
 import { Label } from "@/src/components/ui/label";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 const SettingsPage = () => {
 
@@ -50,7 +51,7 @@ const SettingsPage = () => {
                 .catch(() => setError("Something went wrong!"));
         });
     }
-
+    const [passwordType, setPasswordType] = useState('password');
     return (
         <Card className="w-[90%]">
             <CardHeader>
@@ -87,12 +88,38 @@ const SettingsPage = () => {
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                {...field}
-                                                placeholder="******"
-                                                type="password"
-                                                disabled={isPending}
-                                            />
+                                            <div
+                                                style={{
+                                                    position: 'relative'
+                                                }}
+                                            >
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder="******"
+                                                    type={passwordType}
+                                                ></Input>
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '25%',
+                                                        right: '3%',
+                                                        bottom: '20%',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    {
+                                                        passwordType === "text" ?
+                                                            <FaRegEye
+                                                                onClick={() => setPasswordType('password')}
+                                                            />
+                                                            :
+                                                            <FaRegEyeSlash
+                                                                onClick={() => setPasswordType('text')}
+                                                            />
+                                                    }
+                                                </div>
+                                            </div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -106,12 +133,38 @@ const SettingsPage = () => {
                                     <FormItem>
                                         <FormLabel>New Password</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                {...field}
-                                                placeholder="******"
-                                                type="password"
-                                                disabled={isPending}
-                                            />
+                                            <div
+                                                style={{
+                                                    position: 'relative'
+                                                }}
+                                            >
+                                                <Input
+                                                    {...field}
+                                                    disabled={isPending}
+                                                    placeholder="******"
+                                                    type={passwordType}
+                                                ></Input>
+                                                <div
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '25%',
+                                                        right: '3%',
+                                                        bottom: '20%',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    {
+                                                        passwordType === "text" ?
+                                                            <FaRegEye
+                                                                onClick={() => setPasswordType('password')}
+                                                            />
+                                                            :
+                                                            <FaRegEyeSlash
+                                                                onClick={() => setPasswordType('text')}
+                                                            />
+                                                    }
+                                                </div>
+                                            </div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
