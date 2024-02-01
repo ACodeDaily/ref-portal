@@ -107,7 +107,7 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
 
                 <TableCell className="text-center">{userData.verifiedBy ? <VerifierDetail id={userData.verifiedBy} /> : <Button variant="ghost">
-                    Unverified
+                    Not verified
                 </Button>}</TableCell>
 
             </RoleGateForComponent>
