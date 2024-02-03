@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "font-awesome": "^4.7.0",
+    "fortawesome": "^0.0.1-security",
     "lucide-react": "^0.303.0",
     "next": "14.0.4",
     "next-auth": "^5.0.0-beta.4",
