@@ -7,7 +7,7 @@ import { useCurrentRole } from '@/src/hooks/use-currrent-role'
 import { UserRole } from '@prisma/client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTransition } from "react";
 import Image from "next/image";
 import { RoleGateForComponent } from '@/src/components/auth/role-gate-component'
@@ -16,16 +16,13 @@ import { Form, FormField, FormControl, FormItem, FormLabel, FormDescription, For
 import { useForm } from "react-hook-form";
 import { Input } from "@/src/components/ui/input";
 import { toast } from "sonner";
-import { FaBars, FaTimes } from "react-icons/fa";
 
 import { organizationAddSchema } from "@/src/schemas";
 import { organizationAddition } from "@/src/actions/organization";
 
 
-
 const Navbar = () => {
     const [navbar, setNavbar] = useState(false);
-
     const form = useForm({
         defaultValues: {
             name: "",
@@ -228,27 +225,27 @@ const Navbar = () => {
                     >
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                             <li className="text-balck">
-                                <Link href="/">
+                                <Link href="/" onClick={()=>setNavbar(false)}>
                                     Home
                                 </Link>
                             </li>
                             <li className="text-balck">
-                                <Link href="/member">
+                                <Link href="/member" onClick={()=>setNavbar(false)}>
                                     Members
                                 </Link>
                             </li>
                             <li className="text-balck">
-                                <Link href="/referrer">
+                                <Link href="/referrer" onClick={()=>setNavbar(false)}>
                                     Referrer
                                 </Link>
                             </li>
                             <li className="text-balck">
-                                <Link href="/request">
+                                <Link href="/request" onClick={()=>setNavbar(false)}>
                                     Requests
                                 </Link>
                             </li>
                             <li className="text-balck">
-                                <Link href="/settings">
+                                <Link href="/settings" onClick={()=>setNavbar(false)}>
                                     Settings
                                 </Link>
                             </li>
