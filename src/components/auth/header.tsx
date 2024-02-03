@@ -16,11 +16,11 @@ export const Header = ({ label }: HeaderProps) => {
     return (
         <div className="w-full flex flex-col gap-y-2 items-center justify-center">
             <div className="flex flex-row items-center">
-                <Logo />
+                <Logo/>
                 <h1 className={
                     cn("text-3xl font-semibold", font.className)
                 }>
-                    ACD Referrer
+                    <a href="/">ACD Referrer</a>
                 </h1>
             </div>
 
