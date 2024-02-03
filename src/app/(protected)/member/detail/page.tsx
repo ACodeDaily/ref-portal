@@ -56,7 +56,6 @@ const MemberPage = () => {
             try {
                 const response = await fetch(`/api/members/${id}`); // Adjust the API endpoint based on your actual setup
                 const result = await response.json();
-                // console.log(result.data)
                 setForms(result.data.forms || []); // Use an empty array as a default value if result.data is undefined or null
                 setMember(result.data.member || null)
             } catch (error) {

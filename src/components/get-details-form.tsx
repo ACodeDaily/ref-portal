@@ -82,7 +82,8 @@ const GetDetailsForm = () => {
             try {
                 const response = await fetch('/api/organizations', { next: { revalidate: 10 } }); // Adjust the API endpoint based on your actual setup
                 const result = await response.json();
-                setOrganizations(result.data || []); // Use an empty array as a default value if result.data is undefined or null
+                const sortedOrganizations = (result.data || []).sort((a: organization, b: organization) => a.name.localeCompare(b.name));
+                setOrganizations(sortedOrganizations); // Use an empty array as a default value if result.data is undefined or null
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {

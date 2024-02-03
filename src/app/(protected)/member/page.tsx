@@ -89,10 +89,8 @@ const MemberPage = () => {
         try {
             const response = await fetch(apiUrl);
             const result = await response.json();
-            console.log(result);
             if (result.status === 'OK') {
                 // Extract Codeforces rating information from the API response
-                console.log(result)
                 const codeforcesInfo: member[] = result.result.map((userInfo: any) => {
                     const codeForcesRating = userInfo.rating || 0;
 
