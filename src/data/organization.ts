@@ -28,8 +28,8 @@ export const getOrganizationbyName = async (name: string) => {
 export const getAllOrganization = async () => {
     try {
         const organizations = await db.organization.findMany({
-
         });
+        console.log(organizations);
         return organizations;
     } catch (error) {
         console.error('Error fetching organizations', error);
