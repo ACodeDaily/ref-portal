@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/src/components/ui/select";
 
 import { FaGoogleDrive } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa6";
 
 interface formDataProps {
     id: string;
@@ -25,6 +26,7 @@ interface formDataProps {
     yog: string;
     jobId: string;
     status: Status;
+    isGraduated?: boolean | null;
     verifiedBy?: string | null
     referrerResponse?: string | null
 }
@@ -46,6 +48,8 @@ import { VerifierDetail } from "./verifierDetail";
 
 
 export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
+
+    console.log(formData);
 
     const { id } = formData
 
@@ -106,6 +110,12 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
         }
     };
 
+    const getIdFromUrl = (url: string) => {
+
+        const id = url.match(/[-\w]{25,}/);
+        return id;
+    }
+
     const statusColorClass =
         formData.status === Status.ACCEPTED
             ? 'bg-green-400'
@@ -123,19 +133,48 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
             <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.cgpa, "CGPA")}> {formData.cgpa}</TableCell>
             <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.yoe, "Year of Experience")}> {formData.yoe}</TableCell>
             <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.yog, "Year of Graduation")}> {formData.yog}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.message, "Message")}>{formData.message} </TableCell>
-            <TableCell className="text-center"><Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button> </TableCell>
+
+            {
+                formData.isGraduated === null ?
+                    <TableCell className="text-center hover:cursor-pointer"> Not Available</TableCell> :
+                    <TableCell className="text-center hover:cursor-pointer"> {formData.isGraduated ? "Yes" : "No"} </TableCell>
+            }
+
+            <TableCell className="text-center hover:cursor-pointer">
+
+                <DialogDemo
+                    dialogTrigger="Message"
+                    dialogTitle="Message"
+                    dialogDescription="Key message from Candidate"
+                    ButtonLabel="yes"
+                >
+                    {formData.message ? <p>{formData.message} </p> : <p>No Message</p>}
+
+                </DialogDemo>
+
+
+            </TableCell>
+
+            <TableCell className="flex justify-around items-center">
+
+                <Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button>
+
+                <FaDownload className="hover:cursor-pointer" onClick={(e) => { window.open(`https://drive.google.com/u/1/uc?id=${getIdFromUrl(formData.resume)}&export=download`, "_blank"); }} />
+
+            </TableCell>
 
             <TableCell className="text-center">{formData.status} </TableCell>
-            <TableCell className="text-center"><DialogDemo
-                dialogTrigger="Response"
-                dialogTitle="Response"
-                dialogDescription="Key note from referrer side"
-                ButtonLabel="yes"
-            >
-                {formData.referrerResponse ? <p>{formData.referrerResponse} </p> : <p>No Response</p>}
+            <TableCell className="text-center">
+                <DialogDemo
+                    dialogTrigger="Response"
+                    dialogTitle="Response"
+                    dialogDescription="Key note from referrer side"
+                    ButtonLabel="yes"
+                >
+                    {formData.referrerResponse ? <p>{formData.referrerResponse} </p> : <p>No Response</p>}
 
-            </DialogDemo> </TableCell>
+                </DialogDemo>
+            </TableCell>
 
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
 

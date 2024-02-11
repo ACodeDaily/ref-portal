@@ -27,6 +27,7 @@ interface form {
     yog: string;
     jobId: string;
     status: Status;
+    isGraduated?: boolean | null;
     verifiedBy?: string | null
     referrerResponse?: string | null
 }
@@ -37,6 +38,7 @@ interface member {
     email: string;
     codeForces: string;
     leetcode: string;
+    linkedIn?: string;
     codeForcesRating?: number;
 }
 
@@ -121,6 +123,7 @@ const MemberPage = () => {
                                     <TableHead className="text-center">CGPA</TableHead>
                                     <TableHead className="text-center">{"Exp(year)"}</TableHead>
                                     <TableHead className="text-center">{"Grad. Year"}</TableHead>
+                                    <TableHead className="text-center">{"Grad. Status"}</TableHead>
                                     <TableHead className="text-center">Message</TableHead>
                                     <TableHead className="text-center"><Button variant="link">Resume</Button></TableHead>
                                     <TableHead className="text-center">Status</TableHead>

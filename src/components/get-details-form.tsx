@@ -35,6 +35,8 @@ import {
 import { sendDetails } from "@/src/actions/send-details"
 import { useSearchParams } from "next/navigation"
 import { Textarea } from "./ui/textarea"
+import { Switch } from "@/src/components/ui/switch";
+
 
 import PageLoader from "./loader"
 
@@ -71,6 +73,8 @@ const GetDetailsForm = () => {
             yoe: "",
             yog: "",
             jobId: "",
+            isGraduated: false,
+            linkedIn: "",
         }
     });
 
@@ -111,7 +115,7 @@ const GetDetailsForm = () => {
             })
         })
     }
-
+    
     const [isLoadingOrganizations, setLoadingOrganizations] = useState(true);
 
 
@@ -286,6 +290,49 @@ const GetDetailsForm = () => {
 
 
                                 </div>
+
+                                <div className="flex flex-row gap-x-2 justify-between">
+
+                                    <FormField
+                                        control={form.control}
+                                        name="isGraduated"
+                                        render={({ field }) => (
+                                            <FormItem >
+                                                <div className="space-y-0.5">
+                                                    <FormLabel>Graduated</FormLabel>
+                                                </div>
+                                                <FormControl>
+                                                    <Switch
+                                                        disabled={isPending}
+                                                        checked={field.value}
+                                                        onCheckedChange={field.onChange}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="linkedIn"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>LinkedIn Profile</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        {...field}
+                                                        disabled={isPending}
+                                                        placeholder="https://www.linkedin.com/in/John-Wick"
+                                                        type="link"
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                </div>
+
                                 <div className="flex flex-row gap-x-2 justify-between">
                                     <FormField
                                         control={form.control}

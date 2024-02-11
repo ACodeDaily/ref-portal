@@ -27,6 +27,7 @@ model Member {
   email         String   
   codeForces    String    @unique
   leetcode      String
+  linkedIn      String?
   forms         Form[]
 }
 
@@ -41,6 +42,7 @@ model Form{
   yoe           String
   jobId         String
   yog           String
+  isGraduated    Boolean? @default(false)
   status        Status @default(PENDING)
   formCreatedAt  DateTime   @default(now())
   referrerResponse String?

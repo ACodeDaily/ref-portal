@@ -118,9 +118,18 @@ export const DetailSchema = z.object({
         message: "LeetCode username is required"
     }),
 
-    resume: z.string().url({
-        message: "Resume link is required"
-    }),
+    resume: z.string()
+        .regex(/drive\.google\.com\/.*?\/d\/([^/?]+).*/, {
+            message: "Only google drive"
+        })
+        .url({
+            message: "Google Drive link is required"
+        }),
+
+    linkedIn: z.string()
+        .url({
+            message: "LinkedIn profile is required"
+        }),
 
     jobId: z.string().min(1, {
         message: "Job ID is required"
@@ -149,5 +158,7 @@ export const DetailSchema = z.object({
     yog: z.string().length(4, {
         message: "year of graduation is required"
     }),
+
+    isGraduated: z.boolean(),
 
 });

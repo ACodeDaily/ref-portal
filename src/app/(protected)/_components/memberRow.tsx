@@ -4,6 +4,7 @@ import { Button } from "@/src/components/ui/button";
 
 import { TableCell, TableRow, } from "@/src/components/ui/table"
 import { useTransition } from "react";
+import { FaLinkedin } from "react-icons/fa";
 
 
 
@@ -14,6 +15,7 @@ interface memberDataProps {
     email: string;
     codeForces: string;
     leetcode: string;
+    linkedIn?: string | null;
     codeForcesRating?: number;
 }
 
@@ -77,6 +79,7 @@ export const MemberRow = ({ memberData, onUpdateMemberData, onDeleteMemberData }
             <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(memberData.email, "Email")}>{memberData.email}</TableCell>
             <TableCell className="text-center"><Button variant={"link"}><Link href={`https://codeforces.com/profile/${memberData.codeForces}`} target="__blank">{`${memberData.codeForces} ${memberData.codeForcesRating ? `(${memberData.codeForcesRating})` : ""}`}</Link></Button> </TableCell>
             <TableCell className="text-center"><Button variant={"link"}><Link href={`https://leetcode.com/${memberData.leetcode}`} target="__blank">{memberData.leetcode}</Link></Button> </TableCell>
+            <TableCell className="text-center"><Button variant={"link"}><Link href={memberData.linkedIn ? memberData.linkedIn : "#"} target="__blank">{memberData.linkedIn ? <FaLinkedin size={21} /> : "Not Found"}</Link></Button> </TableCell>
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                 <TableCell className="text-center">
 

@@ -28,6 +28,7 @@ interface member {
     email: string;
     codeForces: string;
     leetcode: string;
+    linkedIn?: string | null;
     codeForcesRating?: number;
 }
 
@@ -136,6 +137,7 @@ const MemberPage = () => {
                                     <TableHead className="text-center">Email</TableHead>
                                     <TableHead className="text-center"><Button variant="link">CodeForces</Button></TableHead>
                                     <TableHead className="text-center"><Button variant="link">Leetcode</Button></TableHead>
+                                    <TableHead className="text-center"><Button variant="link">LinkedIn</Button></TableHead>
                                     <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                                         <TableHead className="text-center">Action</TableHead>
                                     </RoleGateForComponent>
