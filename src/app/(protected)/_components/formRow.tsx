@@ -159,7 +159,7 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
 
                 <Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button>
 
-                <FaDownload className="hover:cursor-pointer" onClick={(e) => { window.open(`https://drive.google.com/u/1/uc?id=${getIdFromUrl(formData.resume)}&export=download`, "_blank"); }} />
+                <FaDownload className="hover:cursor-pointer" onClick={(e: React.MouseEvent) => { window.open(`https://drive.google.com/u/1/uc?id=${getIdFromUrl(formData.resume)}&export=download`, "_blank"); }} />
 
             </TableCell>
 
