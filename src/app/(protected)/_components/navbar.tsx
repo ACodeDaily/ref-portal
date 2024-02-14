@@ -72,18 +72,18 @@ const Navbar = () => {
 
                         <Button
                             asChild
-                            variant={pathname === "/member" ? "default" : "outline"}
-                        >
-                            <Link href="/member">Members</Link>
-                        </Button>
-
-                        <Button
-                            asChild
                             variant={pathname.includes('form/') ? "default" : "outline"}
                         >
                             <Link href="/form/pending">Forms</Link>
                         </Button>
-
+                        <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                            <Button
+                                asChild
+                                variant={pathname === "/member" ? "default" : "outline"}
+                            >
+                                <Link href="/member">Members</Link>
+                            </Button>
+                        </RoleGateForComponent>
                         <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                             <Button
                                 asChild
@@ -238,16 +238,19 @@ const Navbar = () => {
                                     Home
                                 </Link>
                             </li>
-                            <li className="text-balck">
-                                <Link href="/member" onClick={() => setNavbar(false)}>
-                                    Members
-                                </Link>
-                            </li>
+
                             <li className="text-balck">
                                 <Link href="/form" onClick={() => setNavbar(false)}>
                                     Forms
                                 </Link>
                             </li>
+                            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                <li className="text-balck">
+                                    <Link href="/member" onClick={() => setNavbar(false)}>
+                                        Members
+                                    </Link>
+                                </li>
+                            </RoleGateForComponent>
                             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                                 <li className="text-balck">
                                     <Link href="/referrer" onClick={() => setNavbar(false)}>
