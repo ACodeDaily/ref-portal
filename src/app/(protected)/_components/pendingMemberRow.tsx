@@ -35,14 +35,12 @@ interface memberDataProps {
     leetcode: string;
     linkedIn?: string | null;
     codeForcesRating?: number;
-    forms?: form[]
+    forms?: form[] | any
 }
 
 
 interface memberRowDataProps {
     memberData: memberDataProps;
-    onUpdateMemberData: (updateMemberData: memberDataProps) => void;
-    onDeleteMemberData: (deleteMemberData: memberDataProps) => void;
 }
 
 
@@ -66,30 +64,8 @@ const copyToClipboard = async (text: string, type: string) => {
 
 
 
-export const PendingMemberRow = ({ memberData, onUpdateMemberData, onDeleteMemberData }: memberRowDataProps) => {
+export const PendingMemberRow = ({ memberData }: memberRowDataProps) => {
     const [isPending, startTransition] = useTransition()
-
-
-    const onSubmitDelete = (id: string) => {
-
-        startTransition(() => {
-            memberDeleteWithForms(id)
-                .then((data) => {
-                    if (data.error) {
-                        toast.error(data.error);
-                    }
-
-                    if (data.success) {
-                        toast.success(data.success);
-                        onDeleteMemberData(data.deletedMember)
-
-                    }
-                })
-                .catch(() => toast.error("Something went wrong!"));
-        });
-    }
-
-
 
     return (
         <Table>
@@ -127,22 +103,6 @@ export const PendingMemberRow = ({ memberData, onUpdateMemberData, onDeleteMembe
                             </Link>
                         </Button>
                     </TableCell>
-                    {/* <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                        <TableCell className="text-center">
-
-                            <DialogDemo
-                                dialogTrigger="Delete"
-                                dialogTitle="Delete member"
-                                dialogDescription="Do you intend to remove the member along with all associated forms?"
-                                ButtonLabel="yes"
-                            >
-                                <DialogFooter>
-                                    <Button type="submit" variant="destructive" disabled={isPending} onClick={() => (onSubmitDelete(memberData.id))}>Yes</Button>
-                                </DialogFooter>
-                            </DialogDemo>
-
-                        </TableCell>
-                    </RoleGateForComponent> */}
                 </TableRow>
             </TableBody>
         </Table>
