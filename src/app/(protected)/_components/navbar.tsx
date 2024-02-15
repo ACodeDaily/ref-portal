@@ -60,22 +60,30 @@ const Navbar = () => {
                     <div className='flex gap-x-2 max-md:hidden'>
 
                         <div className='mt-[-1px]'>
-                            <Image
-                                src="/images/TextLogo.png"
-                                height="80"
-                                width="80"
-                                alt="Logo"
-                            />
+                            <a href="/">
+                                <Image
+                                    src="/images/TextLogo.png"
+                                    height="80"
+                                    width="80"
+                                    alt="Logo"
+                                />
+                            </a>
                         </div>
 
                         <Button
                             asChild
-                            variant={pathname === "/member" ? "default" : "outline"}
+                            variant={pathname.includes('form/') ? "default" : "outline"}
                         >
-                            <Link href="/member">Members</Link>
+                            <Link href="/form/pending">Forms</Link>
                         </Button>
-
-
+                        <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                            <Button
+                                asChild
+                                variant={pathname === "/member" ? "default" : "outline"}
+                            >
+                                <Link href="/member">Members</Link>
+                            </Button>
+                        </RoleGateForComponent>
                         <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                             <Button
                                 asChild
@@ -150,13 +158,14 @@ const Navbar = () => {
                     </div>
                     <div className='flex gap-x-2 md:hidden'>
                         <div className='mt-[-1px]'>
-                            <Image
-                                // onClick={() => router.push('/')}
-                                src="/images/TextLogo.png"
-                                height="80"
-                                width="80"
-                                alt="Logo"
-                            />
+                            <a href="/">
+                                <Image
+                                    src="/images/TextLogo.png"
+                                    height="80"
+                                    width="80"
+                                    alt="Logo"
+                                />
+                            </a>
                         </div>
                     </div>
 
@@ -225,27 +234,40 @@ const Navbar = () => {
                     >
                         <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
                             <li className="text-balck">
-                                <Link href="/" onClick={()=>setNavbar(false)}>
+                                <Link href="/" onClick={() => setNavbar(false)}>
                                     Home
                                 </Link>
                             </li>
+
                             <li className="text-balck">
-                                <Link href="/member" onClick={()=>setNavbar(false)}>
-                                    Members
+                                <Link href="/form" onClick={() => setNavbar(false)}>
+                                    Forms
                                 </Link>
                             </li>
+                            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                <li className="text-balck">
+                                    <Link href="/member" onClick={() => setNavbar(false)}>
+                                        Members
+                                    </Link>
+                                </li>
+                            </RoleGateForComponent>
+                            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                <li className="text-balck">
+                                    <Link href="/referrer" onClick={() => setNavbar(false)}>
+                                        Referrer
+                                    </Link>
+                                </li>
+                            </RoleGateForComponent>
+                            <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                                <li className="text-balck">
+                                    <Link href="/request" onClick={() => setNavbar(false)}>
+                                        Requests
+                                    </Link>
+                                </li>
+                            </RoleGateForComponent>
+
                             <li className="text-balck">
-                                <Link href="/referrer" onClick={()=>setNavbar(false)}>
-                                    Referrer
-                                </Link>
-                            </li>
-                            <li className="text-balck">
-                                <Link href="/request" onClick={()=>setNavbar(false)}>
-                                    Requests
-                                </Link>
-                            </li>
-                            <li className="text-balck">
-                                <Link href="/settings" onClick={()=>setNavbar(false)}>
+                                <Link href="/settings" onClick={() => setNavbar(false)}>
                                     Settings
                                 </Link>
                             </li>

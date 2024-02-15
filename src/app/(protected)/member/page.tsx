@@ -22,7 +22,7 @@ import { RoleGateForComponent } from "@/src/components/auth/role-gate-component"
 import PageLoader from "@/src/components/loader";
 
 
-interface member {
+interface member { 
     id: string;
     name: string;
     email: string;

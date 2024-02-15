@@ -45,9 +45,11 @@ import { formDelete, formUpdate } from "@/src/actions/formUpdate";
 import { DialogFooter } from "@/src/components/ui/dialog";
 import { RoleGateForComponent } from "@/src/components/auth/role-gate-component";
 import { VerifierDetail } from "./verifierDetail";
+import PageLoader from "@/src/components/loader";
+import { usePathname } from "next/navigation";
 
 
-export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
+export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
 
     const { id } = formData
 
@@ -113,32 +115,26 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
         const id = url.match(/[-\w]{25,}/);
         return id;
     }
+    const pathname = usePathname();
 
-    const statusColorClass =
-        formData.status === Status.ACCEPTED
-            ? 'bg-green-400'
-            : formData.status === Status.REJECTED
-                ? 'bg-red-300'
-                : 'bg-gray-100';
-
+    
 
     return (
-
-        <TableRow key={formData.id} className={statusColorClass} style={{height: '1rem'}}>
-            <TableCell className="font-medium text-center">{formData.organization}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.jobId, "Job Id")}>{formData.jobId}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.phoneNumber, "Phone Number")}> {formData.phoneNumber}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.cgpa, "CGPA")}> {formData.cgpa}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.yoe, "Year of Experience")}> {formData.yoe}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer" onClick={() => copyToClipboard(formData.yog, "Year of Graduation")}> {formData.yog}</TableCell>
+        <TableRow key={formData.id}>
+            <TableCell className="font-medium text-center w-[9%]">{formData.organization}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer max-w-[150px]" style={{textOverflow: 'ellipsis'}} onClick={() => copyToClipboard(formData.jobId, "Job Id")}><p className="truncate">{formData.jobId}</p></TableCell>
+            <TableCell className="text-center hover:cursor-pointer w-[8%]" onClick={() => copyToClipboard(formData.phoneNumber, "Phone Number")}> {formData.phoneNumber}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer w-[6%]" onClick={() => copyToClipboard(formData.cgpa, "CGPA")}> {formData.cgpa}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer w-[7%]" onClick={() => copyToClipboard(formData.yoe, "Year of Experience")}> {formData.yoe}</TableCell>
+            <TableCell className="text-center hover:cursor-pointer w-[7%]" onClick={() => copyToClipboard(formData.yog, "Year of Graduation")}> {formData.yog}</TableCell>
 
             {
                 formData.isGraduated === null ?
-                    <TableCell className="text-center hover:cursor-pointer"> Not Available</TableCell> :
-                    <TableCell className="text-center hover:cursor-pointer"> {formData.isGraduated ? "Yes" : "No"} </TableCell>
+                    <TableCell className="text-center hover:cursor-pointer w-[7%]"> Not Available</TableCell> :
+                    <TableCell className="text-center hover:cursor-pointer w-[7%]"> {formData.isGraduated ? "Yes" : "No"} </TableCell>
             }
 
-            <TableCell className="text-center hover:cursor-pointer" style={{height: '1rem'}}>
+            <TableCell className="text-center hover:cursor-pointer w-[9%]">
                 <DialogDemo
                     dialogTrigger="Message"
                     dialogTitle="Message"
@@ -146,10 +142,11 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                     ButtonLabel="yes"
                 >
                     {formData.message ? <p>{formData.message} </p> : <p>No Message</p>}
+
                 </DialogDemo>
             </TableCell>
 
-            <TableCell className="flex justify-around items-center">
+            <TableCell className="flex justify-around items-center w-[100%]">
 
                 <Button variant={"link"}><Link href={`${formData.resume}`} target="__blank"><FaGoogleDrive /></Link></Button>
 
@@ -157,8 +154,8 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
 
             </TableCell>
 
-            <TableCell className="text-center">{formData.status} </TableCell>
-            <TableCell className="text-center">
+            <TableCell className="text-center w-[9%]">{formData.status} </TableCell>
+            <TableCell className="text-center w-[9%]">
                 <DialogDemo
                     dialogTrigger="Response"
                     dialogTitle="Response"
@@ -174,13 +171,13 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
 
 
 
-                <TableCell className="text-center">{formData.verifiedBy ? <VerifierDetail id={formData.verifiedBy} /> : <Button variant="ghost">
+                <TableCell className="text-center w-[9%]">{formData.verifiedBy ? <VerifierDetail id={formData.verifiedBy} /> : <Button variant="ghost">
                     Unverified
                 </Button>}</TableCell>
 
             </RoleGateForComponent>
 
-            <TableCell className="text-center">
+            <TableCell className="text-center w-[9%]">
 
                 <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                     <DialogDemo
@@ -262,7 +259,10 @@ export const FormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRo
                                         </FormItem>
                                     )}
                                 />
-                                <Button type="submit" disabled={isPending}>Save Changes</Button>
+                                <Button type="submit" disabled={isPending}>
+                                    Save Changes
+                                    <PageLoader loading={isPending}/>
+                                </Button>
                             </form>
                         </Form>
 

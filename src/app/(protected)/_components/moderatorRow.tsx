@@ -101,7 +101,11 @@ export const ModeratorRow = ({ userData, onUpdateUserData, onDeleteUserData }: m
             <TableCell className="text-center font-medium">{userData.name}</TableCell>
             <TableCell className="text-center">{userData.email}</TableCell>
             <TableCell className="text-center">{userData.organization}</TableCell>
-            <TableCell className="text-center">{userData.isVerified ? <IoMdCheckmark /> : <ImCross />}</TableCell>
+            <TableCell className="text-center">
+                <div className="flex justify-center">
+                    {userData.isVerified ? <IoMdCheckmark /> : <ImCross />}
+                </div>
+            </TableCell>
             <TableCell className="text-center">{userData.role}</TableCell>
 
             <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>

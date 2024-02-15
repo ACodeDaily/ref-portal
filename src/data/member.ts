@@ -86,3 +86,41 @@ export const getMemberbyCodeForcesIdWithForms = async (codeForces: string) => {
         return null;
     }
 };
+
+export const getAllMembersWithFormByOrganizationAndStatus = async (organization: string, needStatus: string) => {
+    try {
+        const members = await db.member.findMany({
+            where: {
+                forms: {
+                    some: {
+                        AND: {
+                            organization: organization,
+                            status: (needStatus === "PENDING" ? Status.PENDING : (needStatus === "ACCEPTED" ? Status.ACCEPTED : Status.REJECTED)),
+                        }
+                    },
+                },
+            },
+            include: {
+                forms: true
+            }
+        });
+        // console.log(members)
+        return members;
+    } catch {
+        return null;
+    }
+};
+
+export const getAllMembersWithForm = async () => {
+    try {
+        const members = await db.member.findMany({
+            include: {
+                forms: true
+            }
+        });
+        // console.log(members)
+        return members;
+    } catch {
+        return null;
+    }
+};

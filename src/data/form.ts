@@ -56,7 +56,7 @@ export const getFormsByMemberIdWithOrganization = async (formId: string) => {
         });
 
         return {
-            forms: formsWithoutMembers,
+            forms: forms,
             member: uniqueMembersArray.length >= 1 ? uniqueMembersArray[0] : null,
         };
 

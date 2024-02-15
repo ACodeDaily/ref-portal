@@ -122,7 +122,7 @@ const GetDetailsForm = () => {
     return (
         <>
             <PageLoader loading={isLoadingOrganizations} />
-            <Card className="w-[60%] shadow-md justify-center items-center">
+            <Card className="w-[90%] md:w-[60%] shadow-md justify-center items-center">
                 <CardHeader>
                     <Header label="Submit your details" />
                 </CardHeader>
