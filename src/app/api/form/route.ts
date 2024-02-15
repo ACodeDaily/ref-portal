@@ -1,4 +1,4 @@
-import { getALlMember, getAllMembersWithFormByOrganization, getAllMembersWithForm } from "@/src/data/member";
+import { getALlMember, getAllMembersWithForm } from "@/src/data/member";
 import { currentRole, currentUser } from "@/src/lib/auth";
 import { UserRole } from "@prisma/client";
 import { NextResponse } from "next/server";
@@ -15,10 +15,6 @@ export async function GET() {
         return new NextResponse(JSON.stringify({ data, role, user }), { status: 200 })
     }
 
-    else if (role === UserRole.REFERRER) {
-        const data = await getAllMembersWithFormByOrganization(user?.organization || "");
-        return new NextResponse(JSON.stringify({ data , role, user}), { status: 200 })
-    }
     return new NextResponse(null, {
         status: 403
     });

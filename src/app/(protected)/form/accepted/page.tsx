@@ -104,7 +104,6 @@ const PendingRequestsPage = () => {
     const fetchCodeforcesInfo = async (membersData: member[]): Promise<member[]> => {
         const handles = membersData.map((member) => member.codeForces).join(';');
         const apiUrl = `https://codeforces.com/api/user.info?handles=${handles}`;
-        // const apiUrl = `https://random-data-api.com/api/v2/users?size=2`;
 
         try {
             const response = await fetch(apiUrl);

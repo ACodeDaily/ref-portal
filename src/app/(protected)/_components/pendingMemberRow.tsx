@@ -120,12 +120,14 @@ export const PendingMemberRow = ({ memberData, onUpdateMemberData, onDeleteMembe
                         </Button>
                     </TableCell>
                     <TableCell className="text-center">
-                        <Button variant={"link"}>
-                            <FaLinkedin size={19} />
-                            <Link href={memberData.linkedIn ? memberData.linkedIn : "#"} target="__blank" style={{ marginLeft: '3px' }}>
-                                {memberData.linkedIn ? "Link" : "Not Found"}
-                            </Link>
-                        </Button>
+                        {memberData.linkedIn &&
+                            <Button variant={"link"}>
+
+                                <Link href={memberData.linkedIn} target="__blank" style={{ marginLeft: '3px' }}>
+                                    <FaLinkedin size={19} />
+                                </Link>
+                            </Button>
+                        }
                     </TableCell>
                     {/* <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                         <TableCell className="text-center">
