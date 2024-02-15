@@ -29,6 +29,17 @@ interface formDataProps {
     isGraduated?: boolean | null;
     verifiedBy?: string | null
     referrerResponse?: string | null
+    member: member
+}
+
+interface member {
+    id: string;
+    name: string;
+    email: string;
+    codeForces: string;
+    leetcode: string;
+    linkedIn?: string | null;
+    codeForcesRating?: number;
 }
 
 interface formRowDataProps {
@@ -52,8 +63,8 @@ import { usePathname } from "next/navigation";
 export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }: formRowDataProps) => {
 
     const { id } = formData
-
-
+    const { codeForcesRating } = formData.member
+    
     const form = useForm({
         defaultValues: {
             referrerResponse: formData?.referrerResponse || "",
@@ -65,6 +76,7 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
 
     const onSubmit = (values: z.infer<typeof formUpdateSchema>) => {
         const combinedData = { ...values, id }
+        console.log(combinedData);
         startTransition(() => {
             formUpdate(combinedData)
                 .then((data) => {
@@ -74,8 +86,11 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
 
                     if (data.success) {
                         toast.success(data.success);
-                        onUpdateFormData(data.updatedForm)
-
+                        if(data && data.updatedForm && data.updatedForm.member) {
+                            let tempForm: any = data.updatedForm
+                            tempForm.member['codeForcesRating'] = codeForcesRating
+                            onUpdateFormData(tempForm)
+                        }
                     }
                 })
                 .catch(() => toast.error("Something went wrong!"));
@@ -91,13 +106,13 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
                         toast.error(data.error);
                     }
 
-                    if (data.success) {
-                        toast.success(data.success);
-                        onDeleteFormData(data.deletedForm)
-
+                    if(data && data.deletedForm && data.deletedForm) {
+                        let tempForm: any = data.deletedForm
+                        tempForm.member['codeForcesRating'] = codeForcesRating
+                        onUpdateFormData(tempForm)
                     }
                 })
-                .catch(() => toast.error("Something went wrong!"));
+                .catch((e) => {toast.error("Something went wrong!"), console.log(e)});
         });
     }
 

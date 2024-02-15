@@ -72,9 +72,9 @@ const Navbar = () => {
 
                         <Button
                             asChild
-                            variant={pathname.includes('form/') ? "default" : "outline"}
+                            variant={pathname.includes('form') ? "default" : "outline"}
                         >
-                            <Link href="/form/pending">Forms</Link>
+                            <Link href="/form">Forms</Link>
                         </Button>
                         <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
                             <Button

@@ -33,7 +33,9 @@ export const formUpdate = async (
     if (!dbForm) {
         return { error: "Form does not exist" }
     }
-
+    if (dbForm && dbForm.status !== Status.PENDING &&  dbForm.verifiedBy !== user.id) {
+        return { error: "Form is already Accepted or Rejected by someone else, please refresh the page for the latest data." }
+    }
     const updatedForm = await db.form.update({
         where: { id: id },
         data: {
@@ -41,9 +43,11 @@ export const formUpdate = async (
             status: status,
             verifiedBy: user.id,
             verifiedAt: new Date()
+        },
+        include: {
+            member: true
         }
     });
-
 
 
     return { success: "Settings Updated!", updatedForm }
@@ -67,6 +71,9 @@ export const formDelete = async (
 
     const deletedForm = await db.form.delete({
         where: { id: id },
+        include: {
+            member: true
+        }
     });
 
     return { success: "Deletion Success!", deletedForm }

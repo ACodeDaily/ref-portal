@@ -150,10 +150,9 @@ const MemberPage = () => {
                                 ))}
                             </TableBody >
                         </Table>
-
                     </CardContent>
                 </Card >
-
+                
             </RoleGate>
         </>
 
