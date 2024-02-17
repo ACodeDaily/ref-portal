@@ -138,7 +138,7 @@ const FormPage = () => {
             <RoleGate allowedRole={[UserRole.ADMIN, UserRole.MOD, UserRole.REFERRER]}>
                 <Card className="w-[90%]">
                     <CardHeader className="bg-secondary rounded-xl">
-                        <div className="flex flex-col justify-center items-center ">
+                        <div className="flex flex-row justify-between items-center ">
                             <div className='flex sm:gap-x-2 max-sm:flex-col max-sm:gap-y-3'>
                                 <Button
                                     asChild
