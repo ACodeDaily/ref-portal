@@ -113,13 +113,74 @@ export const getAllMembersWithFormByOrganizationAndStatus = async (organization:
 
 export const getAllMembersWithForm = async () => {
     try {
-        const members = await db.member.findMany({
+        const pendingForms = await db.form.findMany({
+            where: {
+                status: Status.PENDING,
+            },
             include: {
-                forms: true
+                member: true
             }
         });
-        // console.log(members)
-        return members;
+        const acceptedForms = await db.form.findMany({
+            where: {
+                status: Status.ACCEPTED,
+            },
+            include: {
+                member: true
+            }
+        });
+        const rejectedForms = await db.form.findMany({
+            where: {
+                status: Status.REJECTED,
+            },
+            include: {
+                member: true
+            }
+        });
+        return { pendingForms, acceptedForms, rejectedForms };
+    } catch {
+        return null;
+    }
+};
+
+export const getAllMembersWithFormByOrganizationAndRefferer = async (organization: string, verifiedBy: string) => {
+    try {
+        const pendingForms = await db.form.findMany({
+            where: {
+                AND: {
+                    status: Status.PENDING,
+                    organization: organization,
+                }
+            },
+            include: {
+                member: true
+            }
+        });
+        const acceptedForms = await db.form.findMany({
+            where: {
+                AND: {
+                    status: Status.ACCEPTED,
+                    organization: organization,
+                    verifiedBy: verifiedBy,
+                }
+            },
+            include: {
+                member: true
+            }
+        });
+        const rejectedForms = await db.form.findMany({
+            where: {
+                AND: {
+                    status: Status.REJECTED,
+                    organization: organization,
+                    verifiedBy: verifiedBy,
+                }
+            },
+            include: {
+                member: true
+            }
+        });
+        return { pendingForms, acceptedForms, rejectedForms };
     } catch {
         return null;
     }
