@@ -64,7 +64,7 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
 
     const { id } = formData
     const { codeForcesRating } = formData.member
-    
+
     const form = useForm({
         defaultValues: {
             referrerResponse: formData?.referrerResponse || "",
@@ -86,7 +86,7 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
 
                     if (data.success) {
                         toast.success(data.success);
-                        if(data && data.updatedForm && data.updatedForm.member) {
+                        if (data && data.updatedForm && data.updatedForm.member) {
                             let tempForm: any = data.updatedForm
                             tempForm.member['codeForcesRating'] = codeForcesRating
                             onUpdateFormData(tempForm)
@@ -106,13 +106,13 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
                         toast.error(data.error);
                     }
 
-                    if(data && data.deletedForm && data.deletedForm) {
+                    if (data && data.deletedForm && data.deletedForm) {
                         let tempForm: any = data.deletedForm
                         tempForm.member['codeForcesRating'] = codeForcesRating
                         onUpdateFormData(tempForm)
                     }
                 })
-                .catch((e) => {toast.error("Something went wrong!"), console.log(e)});
+                .catch((e) => { toast.error("Something went wrong!"), console.log(e) });
         });
     }
 
@@ -132,12 +132,12 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
     }
     const pathname = usePathname();
 
-    
+
 
     return (
         <TableRow key={formData.id}>
             <TableCell className="font-medium text-center w-[9%]">{formData.organization}</TableCell>
-            <TableCell className="text-center hover:cursor-pointer max-w-[150px]" style={{textOverflow: 'ellipsis'}} onClick={() => copyToClipboard(formData.jobId, "Job Id")}><p className="truncate">{formData.jobId}</p></TableCell>
+            <TableCell className="text-center hover:cursor-pointer max-w-[150px]" style={{ textOverflow: 'ellipsis' }} onClick={() => copyToClipboard(formData.jobId, "Job Id")}><p className="truncate">{formData.jobId}</p></TableCell>
             <TableCell className="text-center hover:cursor-pointer w-[8%]" onClick={() => copyToClipboard(formData.phoneNumber, "Phone Number")}> {formData.phoneNumber}</TableCell>
             <TableCell className="text-center hover:cursor-pointer w-[6%]" onClick={() => copyToClipboard(formData.cgpa, "CGPA")}> {formData.cgpa}</TableCell>
             <TableCell className="text-center hover:cursor-pointer w-[7%]" onClick={() => copyToClipboard(formData.yoe, "Year of Experience")}> {formData.yoe}</TableCell>
@@ -192,23 +192,8 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
 
             </RoleGateForComponent>
 
-            <TableCell className="text-center w-[9%]">
-
-                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
-                    <DialogDemo
-                        dialogTrigger="Delete"
-                        dialogTitle="Delete Form"
-                        dialogDescription="Do you want to delete this form?"
-                        ButtonLabel="yes"
-                    >
-                        <DialogFooter>
-                            <Button type="submit" variant="destructive" onClick={onSubmitDelete} disabled={isPending}>Yes</Button>
-                        </DialogFooter>
-                    </DialogDemo>
-
-                </RoleGateForComponent>
-
-                <RoleGateForComponent allowedRole={[UserRole.REFERRER]}>
+            <TableCell>
+                <RoleGateForComponent allowedRole={[UserRole.REFERRER, UserRole.ADMIN]}>
                     <DialogDemo
                         dialogTrigger="Update"
                         dialogTitle="Update details"
@@ -276,16 +261,36 @@ export const PendingFormRow = ({ formData, onUpdateFormData, onDeleteFormData }:
                                 />
                                 <Button type="submit" disabled={isPending}>
                                     Save Changes
-                                    <PageLoader loading={isPending}/>
+                                    <PageLoader loading={isPending} />
                                 </Button>
                             </form>
                         </Form>
 
                     </DialogDemo>
                 </RoleGateForComponent>
+            </TableCell>
+
+            <TableCell className="text-center w-[9%]">
+
+                <RoleGateForComponent allowedRole={[UserRole.ADMIN, UserRole.MOD]}>
+                    <DialogDemo
+                        dialogTrigger="Delete"
+                        dialogTitle="Delete Form"
+                        dialogDescription="Do you want to delete this form?"
+                        ButtonLabel="yes"
+                    >
+                        <DialogFooter>
+                            <Button type="submit" variant="destructive" onClick={onSubmitDelete} disabled={isPending}>Yes</Button>
+                        </DialogFooter>
+                    </DialogDemo>
+
+                </RoleGateForComponent>
+
+
 
 
             </TableCell>
+
         </TableRow >
     )
 }
