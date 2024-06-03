@@ -1,31 +1,67 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
+const nodemailer = require("nodemailer");
+const path = require('path');
+
+
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
+
+const sendMail = (email: string, verificationLink: string, forgot: boolean) => {
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.FROM_EMAIL,
+            pass: process.env.APP_PASSWORD,
+        }
+    });
+
+    const subject = forgot ? 'Password reset link for ACD Referral' : 'Registration verification link for ACD Referral';
+
+    const htmlContent = `
+    <div style="font-family: Arial, sans-serif; text-align: center;">
+    <h2 style="color: #4CAF50;">${subject}</h2>
+    <p>Hey,</p>
+    <p>Please click the link below to ${forgot ? 'reset your password' : 'complete your registration with ACD Referral Team'}:</p>
+    <p><a href="${verificationLink}" style="color: #4CAF50; text-decoration: none;">Verify your account</a></p>
+    <p>If the link above does not work, please copy and paste the following URL into your browser:</p>
+    <p style="word-wrap: break-word;">${verificationLink}</p>
+    <p>By verifying, you will gain access to your account for referral related works.</p>
+    <img src="cid:bannerImage" style="width: 100%; max-width: 600px; margin: 20px 0;" alt="ACD_Banner"/>
+    <p>Thank you for believing in A Code Daily</p>
+</div>
+  `;
+
+    const mailOptions = {
+        from: process.env.FROM_EMAIL,
+        to: email,
+        subject: subject,
+        html: htmlContent,
+        attachments: [
+            {
+                filename: 'ACDLadders.png',
+                path: path.join(process.cwd(), 'public', 'images', 'ACDLadders.png'),
+                cid: 'bannerImage'
+            },
+
+        ]
+    };
+
+    return { transporter, mailOptions };
+}
+
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${domain}/auth/new-verification?token=${token}`;
-
-    await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: email,
-        subject: "Confirm your email",
-        html: `<p> Click <a href = "${confirmLink}"> here </a> to confirm email</p>`
-
-    })
+    const { transporter, mailOptions } = sendMail(email, confirmLink, false)
+    await transporter.sendMail(mailOptions)
 }
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
     const confirmLink = `${domain}/auth/new-password?token=${token}`;
-
-    await resend.emails.send({
-        from: "onboarding@resend.dev",
-        to: email,
-        subject: "Reset your password",
-        html: `<p> Click <a href = "${confirmLink}"> here </a> to reset your password</p>`
-
-    })
+    const { transporter, mailOptions } = sendMail(email, confirmLink, true)
+    await transporter.sendMail(mailOptions)
 }
 
 export const sendTwoFactorTokenEmail = async (email: string, token: string) => {

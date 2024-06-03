@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { CardWrapper } from "@/src/components/auth/card-wrapper"
-import { BeatLoader, HashLoader } from "react-spinners"
+import { BeatLoader } from "react-spinners"
 import { useSearchParams } from "next/navigation"
 import { newVerification } from "@/src/actions/new-verification"
 import { FormError } from "@/src/components/form-error"
@@ -28,8 +28,10 @@ export const NewVerificationForm = () => {
         }
 
         newVerification(token).then((data) => {
-            setSuccess(data.success);
-            setError(data.error)
+            if (data.success)
+                setSuccess(data.success);
+            else if (data.error)
+                setError(data.error)
         })
             .catch(() => {
                 setError("Something went wrong!")

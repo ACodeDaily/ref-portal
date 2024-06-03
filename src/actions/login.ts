@@ -37,10 +37,9 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
         )
 
         // TODO: get email Service
-        // await sendVerificationEmail(verifictionToken.email, verifictionToken.token)
-        // return { success: "Confirmation email sent!" }
+        await sendVerificationEmail(verifictionToken.email, verifictionToken.token)
+        return { success: "Confirmation email sent! Please verify yourself" }
 
-        return { error: "Account is being verified by Admin" }
     }
 
     // for verification using admin or mod

@@ -36,7 +36,6 @@ export const moderatorUpdate = async (
             isVerified: isVerified,
             verifiedBy: user.id,
             verifiedAt: new Date(),
-            emailVerified: new Date()
         }
     });
 
