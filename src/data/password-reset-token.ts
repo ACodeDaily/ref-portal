@@ -3,7 +3,7 @@ import { db } from "@/src/lib/db";
 export const getPasswordResetTokenByEmail = async (email: string) => {
     try {
         const passwordResetToken = await db.passwordResetToken.findFirst({
-            where: { email }
+            where: { email: email.toLowerCase() }
         })
 
         return passwordResetToken;

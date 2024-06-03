@@ -3,7 +3,7 @@ import { db } from "@/src/lib/db";
 export const getTwoFactorTokenByEmail = async (email: string) => {
     try {
         const twoFactorToken = await db.twoFactorToken.findFirst({
-            where: { email }
+            where: { email: email.toLowerCase() }
         })
 
         return twoFactorToken;

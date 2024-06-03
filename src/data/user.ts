@@ -4,7 +4,7 @@ import { UserRole } from "@prisma/client";
 export const getUserByEmail = async (email: string) => {
     try {
         const user = await db.user.findUnique({
-            where: { email }
+            where: { email: email.toLowerCase() }
         })
 
         return user;
@@ -60,7 +60,7 @@ export const getAllUsersWithRole = async (query?: UserQuery) => {
         const users = await db.user.findMany({
             where: whereClause,
         });
-        
+
         return users;
     } catch (error) {
         console.error('Error fetching users with role:', error);

@@ -3,7 +3,7 @@ import { db } from "@/src/lib/db";
 export const getVerificationTOkenBYEmail = async (email: string) => {
     try {
         const verificationToken = await db.verificationToken.findFirst({
-            where: { email }
+            where: { email: email.toLowerCase() }
         })
 
         return verificationToken;
