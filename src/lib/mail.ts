@@ -1,8 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
 const nodemailer = require("nodemailer");
-const path = require('path');
-
 
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -29,7 +26,6 @@ const sendMail = (email: string, verificationLink: string, forgot: boolean) => {
     <p>If the link above does not work, please copy and paste the following URL into your browser:</p>
     <p style="word-wrap: break-word;">${verificationLink}</p>
     <p>By verifying, you will gain access to your account for referral related works.</p>
-    <img src="cid:bannerImage" style="width: 100%; max-width: 600px; margin: 20px 0;" alt="ACD_Banner"/>
     <p>Thank you for believing in A Code Daily</p>
 </div>
   `;
@@ -39,14 +35,7 @@ const sendMail = (email: string, verificationLink: string, forgot: boolean) => {
         to: email,
         subject: subject,
         html: htmlContent,
-        attachments: [
-            {
-                filename: 'ACDLadders.png',
-                path: path.join(process.cwd(), 'public', 'images', 'ACDLadders.png'),
-                cid: 'bannerImage'
-            },
 
-        ]
     };
 
     return { transporter, mailOptions };
